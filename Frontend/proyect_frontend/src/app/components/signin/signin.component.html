@@ -31,7 +31,7 @@
 <div class="container-signin d-flex justify-content-center align-items-center" *ngIf="!authService.loggedIn()">
   <div class="container-form row m-0">
 
-    <div class="col-12 col-md-6 col-xl-6 fondo-welcome p-1">
+    <!-- <div class="col-12 col-md-6 col-xl-6 fondo-welcome p-1">
       <div class="titulo">
         <h3>Pio Lindo <></h3>
       </div>
@@ -40,7 +40,7 @@
         <p>Ingresa tu cuenta para acceder a la pagina</p>
       </div>
   
-    </div>
+    </div> -->
     
       <div class="col-12 col-md-6 col-xl-6 fondo-signin">
         <h4 class="text-center pb-4">Ingresar</h4>
@@ -52,7 +52,7 @@
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" #clave="ngModel" [(ngModel)]="user.clave" name="clave" placeholder="***" required>
+            <input type="password" class="form-control" #clave="ngModel" [(ngModel)]="user.clave" name="clave"  required>
             <span class="advertencias" *ngIf="clave.touched && user.clave.length==0" style="color: red;">** Insertar Contraseña </span>
             <span class="advertencias" *ngIf="clave.touched && user.clave.length<=3 && user.clave.length!=0" style="color: red;">** Contraseña debe ser mayor a 3</span>
           </div>

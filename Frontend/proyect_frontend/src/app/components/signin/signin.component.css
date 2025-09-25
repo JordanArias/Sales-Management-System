@@ -8,8 +8,9 @@
     min-height: 48%;
     min-width: 60%;
     max-width: 85%;
-    border-radius: 15px; /* Ajusta el valor según tus preferencias */
     overflow: hidden;
+    display: flex;
+    justify-content: space-evenly;
 }
 .fondo-welcome{
     background: #2a384c;
@@ -39,6 +40,7 @@
 .fondo-signin{
     background: aliceblue;
     padding: 7%;
+    border-radius: 15px;
 }
 
 
@@ -58,7 +60,7 @@
 .container-btn button{
     width: 100%;
     color: #f3f3f3;
-    background: #2a384c;
+    background: #af6a02;
 }
 
 
