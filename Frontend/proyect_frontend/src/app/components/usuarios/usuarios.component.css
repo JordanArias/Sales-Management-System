@@ -20,8 +20,8 @@
   font-size: 18px;
   font-weight: 400;
   padding: 12px 15px;
-  color: #dcdcdc;
-  background: #21252b;
+  /* color: #dcdcdc; */
+  background: #f3f3f3;
   border: none;
   border-bottom: 1px solid #545252ee;
 }

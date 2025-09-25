@@ -1,9 +1,9 @@
 
 
 #side_nav{
-    background: #21252b;
-    min-width: 250px;
-    max-width: 250px;
+    background: #1f4155;
+    min-width: 225px;
+    max-width: 225px;
     transition: all 0.3s;
 }
 .content{
