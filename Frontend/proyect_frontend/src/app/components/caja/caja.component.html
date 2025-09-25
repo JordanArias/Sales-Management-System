@@ -48,7 +48,7 @@
         <div class="container-lista">
           <ul class="list-group p-0" style="border: none;">
             <!-- Titulos -->
-            <li class="list-group-item lista-caja">
+            <li class="list-group-item lista-caja" style="font-weight: bold;">
               <div class="row mx-0">
                 <div class="col-1 col-sm-2 col-md-1 col-lg-1 px-0">Caja</div>
                 <div class="col-3 col-sm-3 col-md-3 col-lg-3 px-0">Fecha</div>
@@ -75,15 +75,15 @@
                 <!-- Saldo Inicial Bs -->
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">
                   <div class="row mx-0">
-                      <div class="col-12 px-0" style="color: #d4da8f">Bs. {{c.saldoini_bs}}</div>
-                      <div class="col-12 px-0" style="color: #a7e29eee;">Bs. {{c.saldofin_bs}}</div>
+                      <div class="col-12 px-0">Bs. {{c.saldoini_bs}}</div>
+                      <div class="col-12 px-0">Bs. {{c.saldofin_bs}}</div>
                   </div>
                 </div>
                 <!-- Saldo Inicial Arg -->
                 <div class="col-3 col-sm-3 col-md-3 col-lg-2 px-0">
                   <div class="row mx-0">
-                      <div class="col-12 px-0" style="color: #d4da8f">Arg. {{c.saldoini_arg}}</div>
-                      <div class="col-12 px-0" style="color: #a7e29eee;">Arg. {{c.saldofin_arg}}</div>
+                      <div class="col-12 px-0" style="color: #158403ee">Arg. {{c.saldoini_arg}}</div>
+                      <div class="col-12 px-0" style="color: #158403ee;">Arg. {{c.saldofin_arg}}</div>
                   </div>
                 </div>
                 <!-- Numero de Ventas -->
@@ -91,7 +91,7 @@
                 <!-- Opciones Caja -->
                 <div class="col-1 col-sm-1 col-md-1 col-lg-1 px-0">
                   <div ngbDropdown class="d-inline-block">
-                    <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="background: #f6f6f60a; color: #eeee;"></button>
+                    <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="background: #326381; color: #eeee;"></button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                       <button ngbDropdownItem (click)="showModalModificar(c)">Modificar</button>
                       <button ngbDropdownItem (click)="showModalEliminar(c)">Eliminar</button>
