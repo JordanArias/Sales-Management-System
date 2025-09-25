@@ -1,0 +1,695 @@
+<div class="container-principal">
+
+
+  <div id="container-pricipal-lista" [ngStyle]="{'display': container_lista ? 'block' : 'none'}">
+  <!-- CONTENIDO OPCIONES -->
+    <div class="container-opciones d-flex justify-content-around align-items-center px-3 py-2">
+      <!-- Buscador -->
+      <div class="container-buscador d-flex">
+        <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchedMesa">
+        <button class="btn btn-secondary mx-2" (click)="searchMesa()">Search</button>  
+      </div>
+      <!-- Boton Agregar Venta-->
+      <div class="container-agregar">
+          <button class="btn btn-secondary" (click)="boton_Agregar_Venta()">Agregar Venta</button>
+      </div>
+    </div>
+  <!-- CONTENIDO LISTAS PEDIDOS -->
+    <div class="container-listas" #ventasContainer>
+      <!-- Container Cards Pedidos -->
+        <div class="container-cards-pedidos">
+          <div class="align-items-stretch d-flex flex-wrap justify-content-center">
+            <ng-container class="align-items-stretch d-flex justify-content-center" *ngFor="let ventaDetalles of ventasConDetalles; let i = index" #element>
+                <!-- lista # -->
+                <div class="w-100" *ngIf="(i + 1) == 1 && i < ventasConDetalles.length - 1">
+                  <div class="col-12">
+                    <hr class="linea-separadora">
+                    <p class="texto-linea-separadora">Lista {{i+1}}</p>
+                  </div>
+                </div>
+                
+                <div class="container-cards m-2" id="element-{{i}}">
+                  <!-- Container Card -->
+                  <div class="card" (data-mesa)="ventaDetalles.venta.mesa" [attr.data-index]="i">
+                    <!-- Card Header -->
+                      <div class="card-header fs-5 d-flex justify-content-between py-1 px-1">
+                        <!-- Indice  -->
+                        <div class="indice">
+                          <p class="card-title py-0 my-0">{{ventaDetalles.venta.ticket}}</p>
+                        </div>
+                        <!-- Numero de Mesa -->
+                        <div class="mesa">
+                          <p class="card-text py-0 my-0" [class.found]="mesaFound && (ventaDetalles.venta.mesa == searchedMesa)">
+                            Mesa: {{ventaDetalles.venta.mesa}} <strong *ngIf="ventaDetalles.venta.vent_llevar==1" style="color: #ee7c3a; text-align: center;">P/LL</strong>
+                          </p>    
+                        </div>            
+                        <!-- Opciones -->
+                        <div>
+                          <button class="btn" style="background: #f6f6f60a; color: #eeee;" (click)="openMenu(i)">...</button>
+                          <div class="venta-menu" id="venta-menu" [ngStyle]="{'display': currentCardIndex === i && ventaMenuVisible ? 'block' : 'none'}">
+                            <button ngbDropdownItem (click)="Modificar(ventaDetalles)">Modificar</button>
+                            <button ngbDropdownItem (click)="showModalEliminar(modalEliminarVenta,ventaDetalles,ventaDetalles.venta.mesa, i)">Eliminar</button>
+                            <button ngbDropdownItem (click)="emitir_Ticket(modalgenerarpdf,ventaDetalles)">Emitir</button>
+                          </div>
+                        </div>
+                        <!-- <div ngbDropdown class="d-inline-block">
+                          <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="background: #f6f6f60a; color: #eeee;"></button>
+                          <div ngbDropdownMenu style="z-index: 1000; inset: -40px auto auto 0px; transform: translate3d(0px, 40px, 0px); left: auto; right: 0;">
+s
+                            <button ngbDropdownItem (click)="Modificar(ventaDetalles)">Modificar</button>
+                            <button ngbDropdownItem (click)="showModalEliminar(modalEliminarVenta,ventaDetalles,ventaDetalles.venta.mesa, i)">Eliminar</button>
+                            <button ngbDropdownItem (click)="emitir_Ticket(modalgenerarpdf,ventaDetalles)">Emitir</button>
+                          </div>
+                        </div> -->
+                      </div>
+    
+                    <!-- Card Body -->
+                    <div class="card-body px-1 py-0">
+                      <div class="d-flex justify-content-start align-items-center py-2" *ngFor="let detalleItems of ventaDetalles.detalles" style="border-top: 1px solid #adadad;">
+                        <!-- Producto Title -->
+                        <div class="title">
+                          <h6 class="card-subtitle py-0 my-0">{{detalleItems.detalle.unidad_item}} {{detalleItems.detalle.nom_pro }} <br> <strong *ngIf="detalleItems.detalle.item_llevar==1" style="color: #ee7c3a; text-align: center;">P/LL</strong></h6>
+                          <!-- <p class="card-text py-0 my-0" style="color: #ee7c3a; text-align: center;font-weight: 700;">P/LL</p> -->
+                        </div>
+                        <!-- Presas Pollo -->
+                        <div class="presas">
+                            <p class="card-text py-0 my-0" *ngFor="let item of detalleItems.items">
+                              {{item.unidad_presa}}{{item.nom_presa}}
+                            </p>        
+                        </div>
+                        <!-- Descripcion Producto -->
+                        <div class="descripcion">
+                          <p class="card-text py-0 my-0">{{detalleItems.detalle.descript_item}}</p>
+                        </div>          
+                      </div>
+                      <!-- PRECIO TOTAL Y DETALLE DEL PEDIDO -->
+                      <div class="detalle-venta" *ngIf="ventaDetalles.venta.descrip_venta!==null && ventaDetalles.venta.descrip_venta!==''" style="border-top: 1px solid #adadad;">
+                        <p class="card-text text-center">
+                            {{ventaDetalles.venta.descrip_venta}} 
+                        </p>
+                      </div>
+                    </div>
+    
+                    <!-- Card Footer -->
+                    <div class="card-footer d-flex justify-content-between px-1 py-1" [ngStyle]="{'background': ventaDetalles.venta.pagado<99 ? '#a15656' : '', 'color': ventaDetalles.venta.pagado < 99 ? '#f4f4f4' : ''}">
+                      <div class="pagado d-flex">
+                        <p class="card-text py-0 my-0"*ngIf="(ventaDetalles.venta.pag_arg==0 || ventaDetalles.venta.pag_arg==null) && ventaDetalles.venta.pagado_bs>0"> <b>Pag: </b>{{ventaDetalles.venta.pagado_bs}}bs </p>
+                        <p class="card-text py-0 my-0"*ngIf="ventaDetalles.venta.pag_arg>0 && (ventaDetalles.venta.pagado_bs==0 || ventaDetalles.venta.pagado_bs==null)"> <b>Pag: </b> {{ventaDetalles.venta.pag_arg}}ps </p>
+                        <p class="card-text py-0 my-0"*ngIf="ventaDetalles.venta.pag_arg>0 && ventaDetalles.venta.pagado_bs>0"> <b>Pag: </b>{{ventaDetalles.venta.pagado_bs}}bs - {{ventaDetalles.venta.pag_arg}}ps </p>
+                      </div>
+                      <div class="hora">
+                        <p class="card-text py-0 my-0"> <b>Hr: </b>{{ventaDetalles.venta.hora}}</p>
+                      </div>      
+                    </div>
+    
+                  </div>
+    
+                </div>
+    
+                <!-- Agrega una fila adicional después de cada grupo de 5 tarjetas -->
+                <div class="w-100" *ngIf="(i + 1) % 6 == 0 && i < ventasConDetalles.length - 1">
+                  <div class="col-12">
+                    <hr class="linea-separadora">
+                    <p class="texto-linea-separadora">Lista {{((i + 1) / 6)+1}}</p>
+                  </div>
+                </div>
+    
+            </ng-container>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+
+  <!-- CONTENIDO FORMULARIO AGREGAR VENTA -->
+  <div id="container-pricipal-venta" [ngStyle]="{'display': container_form ? 'block' : 'none'}">
+    <div class="container-venta">
+
+      <!-- Container Lista Productos -->
+      <div class="container-lista-productos" >
+
+        <!-- Container Opciones -->
+        <div class="opciones-productos">
+          <!-- Buscar -->
+          <div class="buscar">
+            <input type="text" class="form-control" placeholder="Buscar..." name="filterPost" [(ngModel)]="filterPost">
+          </div>
+          <!-- Seleccionar -->
+          <div class="seleccionar">
+            <select class="form-select" [(ngModel)]="categoriaSeleccionada" (change)="seleccionarLista()" aria-label="Default select example">
+              <option selected value="0">Todo</option>
+              <option *ngFor="let c of categoriasLista" [value]="c.cod_categoria">{{ c.nom_categoria }}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Container Lista Productos -->
+        <div class="lista-productos">
+          <div class="card" *ngFor="let p of productosLista | filter: filterPost : ['nom_pro']; let i=index" (click)="agregar_ProductoSeleccionado(p)">
+            <div class="card-body">
+              <h6 class="card-title">{{ p.nom_pro }}</h6>
+              <p class="card-text">{{ p.precio_bs }}bs - {{p.precio_arg}}ps</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Container Form Venta -->
+      <div class="container-form-venta">
+        <!-- Form Datos Venta -->
+        <div class="form-venta">
+              <!-- Mesa -->
+            <div class="mesa">
+                <label for="inputEmail4" class="form-label m-1">Mesa</label>
+                <input type="number" class="form-control"  #ventas[0].mesa="ngModel" [(ngModel)]="ventas[0].mesa" name="ventas[0].mesa" inputmode="numeric" pattern="[0-9]*">
+            </div>
+
+            <!-- Descripcion -->
+            <div class="descripcion">
+              <input type="text" class="form-control" #ventas[0].descrip_venta="ngModel" [(ngModel)]="ventas[0].descrip_venta" name="ventas[0].descrip_venta" placeholder="Descripcion" 
+                     (focus)="openOpcionesDescripcion()" (blur)="openOpcionesDescripcion()">
+            </div>
+            <div class="opciones-descripcion" *ngIf="opcionesDescripcion">
+              <p (click)="agregarDescripcion('T c/a')">T c/a</p>
+              <p (click)="agregarDescripcion('Bien cocido')">Bien cocido</p>
+              <p (click)="agregarDescripcion('Aderezo de Pomos')">Aderezo de Pomos</p>
+            </div>
+
+            <!-- Para Llevar -->
+            <div class="p-ll">
+              <label class="form-check-label" for="flexCheckChecked"> Todo P/LL </label>
+              <input class="form-check-input mx-1" type="checkbox" #ventas[0].vent_llevar="ngModel" [(ngModel)]="ventas[0].vent_llevar" name="ventas[0].vent_llevar">
+            </div>
+
+            <div class="btn-add-productos">
+              <button class="btn btn-secondary" (click)="showModalAddProducto()">P</button>
+            </div>
+            
+        </div>
+        <!-- Lista Productos Seleccionados -->
+        <div class="lista-seleccionados">
+          <ul class="list-group">
+            <!-- <li> Producto Seleccionado -->
+            <li class="list-group-item" *ngFor="let item of productoSelect; let i=index">
+              <div class="lista-agregados" [attr.data-index]="i">
+                <div class="cantidad">
+                  <!-- Nombre Producto -->
+                  <div class="nom-producto">
+                    <h6>{{item.prod.nom_pro}}</h6>
+                  </div>
+                  <div class="btn-producto">
+                    <button class="btn btn-secondary"  (mousedown)="comenzarIncremento(item.prod, 'botonProducto_Menos')"
+                    (mouseup)="detenerIncremento('botonProducto_Menos')" (mouseleave)="detenerIncremento('botonProducto_Menos')" 
+                    (click)="botonProducto_Menos(item.prod)">-
+                    </button>
+
+                    <input type="text" class="form-control" placeholder="0" [name]="'unidad_item' + i" [(ngModel)]="item.prod.unidad_item">
+                    
+                    <button class="btn btn-secondary"(mousedown)="comenzarIncremento(item.prod, 'botonProducto_Mas')"
+                    (mouseup)="detenerIncremento('botonProducto_Mas')" (mouseleave)="detenerIncremento('botonProducto_Mas')" 
+                    (click)="botonProducto_Mas(item.prod)">+
+                    </button>
+                  </div>
+                </div>
+                <!-- Porciones Ala Pierna y Pecho -->
+                <div class="porciones-laptop">
+                  <div class="porciones" *ngIf="item.prod.cod_categoria==1 && item.prod.precio_bs<40">
+                    <div class="porcion" [ngClass]="{'cero-presas': item.item_presaA.unidad_presa==0}">
+                      <div class="nom-presa">
+                        <input type="text" class="form-control" placeholder="0" value="{{item.item_presaA.unidad_presa}}">
+                        <h6 class="m-0">Ala</h6>
+                      </div>
+                      <div class="btn-porcion">
+                        <button class="btn btn-secondary" (click)="botonPresa_Menos(item.item_presaA)">-</button>
+                        <button class="btn btn-secondary" (click)="botonPresa_Mas(item.item_presaA,i)">+</button>
+                      </div>
+                    </div>
+                    <div class="porcion" [ngClass]="{'cero-presas': item.item_presaPi.unidad_presa==0}">
+                      <div class="nom-presa">
+                        <input type="text" class="form-control" placeholder="0" value="{{item.item_presaPi.unidad_presa}}">
+                        <h6 class="m-0">Pi</h6>
+                      </div>
+                      <div class="btn-porcion">
+                        <button class="btn btn-secondary" (click)="botonPresa_Menos(item.item_presaPi)">-</button>
+                        <button class="btn btn-secondary" (click)="botonPresa_Mas(item.item_presaPi,i)">+</button>
+                      </div>
+                    </div>
+                    <div class="porcion"[ngClass]="{'cero-presas': item.item_presaPe.unidad_presa==0}">
+                      <div class="nom-presa">
+                        <input type="text" class="form-control" placeholder="0" value="{{item.item_presaPe.unidad_presa}}">
+                        <h6 class="m-0">Pe</h6>
+                      </div>
+                      <div class="btn-porcion">
+                        <button class="btn btn-secondary" (click)="botonPresa_Menos(item.item_presaPe)">-</button>
+                        <button class="btn btn-secondary" (click)="botonPresa_Mas(item.item_presaPe,i)">+</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+                <!-- Descripcion Producto -->
+                <div class="descripcion-laptop">
+                  <div class="descripcion"[ngClass]="{'cero-presas': item.prod.unidad_arroz==0, 'solo-descripcion': item.prod.cod_categoria!==1 || item.prod.precio_bs>40}">
+                    <div [ngStyle]="{'display':item.prod.cod_categoria!=1 || item.prod.precio_bs>40 ? 'flex' : 'block'}">
+                      <div class="arroz d-flex mb-1" *ngIf="item.prod.cod_categoria==1 && item.prod.precio_bs<40">
+                        <div class="nom-arroz">
+                          <input type="text" class="form-control" placeholder="0" value="{{item.prod.unidad_arroz}}">
+                          <h6 class="m-0">c/a</h6>
+                        </div>
+                        <div class="btn-arroz">
+                          <button class="btn btn-secondary" (click)="botonArroz_Menos(item.prod)">-</button>
+                          <button class="btn btn-secondary" (click)="botonArroz_Mas(item.prod,i)">+</button>
+                        </div>
+                      </div>
+                      <div class="detalle" *ngIf="item.prod.opciones">
+                        <input type="text" class="form-control" placeholder="detalle producto" style="height: 32px" [name]="'descript_item_' + i" [(ngModel)]="item.prod.descript_item" (focus)="showModalDetalleOpciones(i)">
+                      </div>
+                      <div class="detalle" *ngIf="!item.prod.opciones">
+                        <div class="d-flex align-items-center">
+                          <input type="text" class="form-control" placeholder="detalle producto" style="height: 32px" [name]="'descript_item_' + i" [(ngModel)]="item.prod.descript_item">
+                          <button class="btn btn-secondary" (click)="borrarDetalle(i)">B</button>
+                        </div>  
+                      </div>
+                      <div class="p-llevar d-flex align-items-center">
+                        <input class="form-check-input" type="checkbox" [name]="'item_llevar_' + i" [(ngModel)]="item.prod.item_llevar">
+                      <h6 class="m-0">P/LL</h6>
+                      </div>                      
+                    </div>
+                  </div>
+                </div>
+
+                <div class="porciones-descripcion">
+                  <div class="detalle">
+                    <div class="presas-movil">
+                      <p class="text m-0" *ngIf="item.item_presaA.unidad_presa>0">{{item.item_presaA.unidad_presa}} Ala</p>
+                      <p class="text m-0" *ngIf="item.item_presaPi.unidad_presa>0">{{item.item_presaPi.unidad_presa}} Pi</p>
+                      <p class="text m-0" *ngIf="item.item_presaPe.unidad_presa>0">{{item.item_presaPe.unidad_presa}} Pe</p>
+                    </div>
+                    <div class="descripcion-movil">
+                      <p class="text m-0" *ngIf="item.prod.unidad_arroz>0">{{item.prod.unidad_arroz}} c/a</p>
+                      <p class="text m-0" *ngIf="item.prod.descript_item!=''">{{item.prod.descript_item}}</p>
+                      <p class="text m-0"*ngIf="item.prod.item_llevar==true" style="color: #ee7c3a;">P/LL</p>
+                    </div>
+                  </div>             
+                  <div class="btn-detalle d-flex justify-content-center">
+                    <button class="btn btn-secondary" (click)="showModalDetalleVenta(i)">Detalle</button>
+                  </div>
+                </div>
+                <!-- Boton eliminar Producto de la Lista  -->
+                <div class="eliminar d-flex align-items-center">
+                  <button class="btn p-0" (click)="eliminar_ProductoSeleccionado(item,i)"> 
+                    <span class="px-0"><img src="../assets/images/icons/icon-options/eliminar.png"></span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- Botones Venta -->
+        <div class="form-footer">
+            <div class="botones">
+              <div class="btn-cancelar">
+                <button class="btn btn-secondary" (click)="LimpiarDatos()">Cancelar</button>
+              </div>
+              <div>
+                <div class="btn-agregar">
+                  <button class="btn btn-secondary"*ngIf="this.Button_Registrar==1"[disabled]="productoSelect.length==0 || ventas[0].total_bs==0" (click)="registrar_Venta()">Agregar</button>
+                </div>
+                <div class="btn-agregar">
+                  <button class="btn btn-secondary"*ngIf="this.Button_Modificar==1"(click)="Modificar_Nuevo()"[disabled]="productoSelect.length==0 || ventas[0].total_bs==0">Modificar</button>
+                </div>
+              </div>
+            </div>
+            <div class="totales">
+              <div class="precios">
+                <!-- <h6 class="text m-0">Total: </h6> -->
+                <p class="text m-0">{{ventas[0].total_bs}} Bs</p>
+                <p class="text m-0">{{ventas[0].total_arg}} Arg</p>
+              </div>
+              <div class="btn-pagar">
+                <button class="btn btn-secondary"[disabled]="productoSelect.length==0 || ventas[0].total_bs==0" (click)="showModalPagar()">$ <br>Pagar</button>
+              </div>        
+            </div>   
+       
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ****************************** MODAL DELETE VENTA ***************************************** -->
+<div #modalEliminarVenta id="modalEliminarVenta" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR VENTA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Pedido: <strong>{{num_del+1}}</strong></p>
+        <p>Mesa: <strong>{{mesa_del}}</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeMenu()">Cancelar</button>
+        <button type="button" class="btn btn-danger btn-cancel" (click)="Eliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL GENERAR PDF ***************************************** -->
+<div #modalgenerarpdf id="modalgenerarpdf" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">Emitir Ticket</h5>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeMenu()">Cancelar</button>
+        <button type="button" class="btn btn-success" (click)="Eliminar()">Imprimir</button>
+        <button type="button" class="btn-close mx-0" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <ngx-extended-pdf-viewer [src]="pdfurl" [useBrowserLocale]="true" [showToolbar]="false" style="height: 610px;">
+          <div _ngcontent-ng-c1982957692 class="zoom" style="height: 510px;"> </div>
+        </ngx-extended-pdf-viewer>
+      </div>
+      <!-- <div class="modal-footer">
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ****************************** MODAL PAGAR ***************************************** -->
+<div #modalPagarmodalPagar id="modalPagar" class="modal modal-lg" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content content-modal">
+      <div class="modal-header" style="background: #53778b;color: #f4f4f4;">
+        <h5 class="modal-title fs-5">PAGAR PEDIDO</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center modal-pagar p-0">
+
+       <div  style="border-bottom: 1px solid #838383ee;">
+          <div class="row m-0" *ngFor="let item of productoSelect" >
+            <div class="col-5 px-0 py-1">
+                <div class="d-flex px-2">
+                  <p class="my-0"> ({{item.prod.unidad_item}})  {{item.prod.nom_pro}}</p>
+                </div>
+            </div>
+            <div class="col-7 px-0 py-1">
+                <div class="d-flex" style="padding-right: 10px;">
+                  <p class="my-0 d-flex justify-content-end" style="width: 50%; padding-right: 5px;"> {{(item.prod.unidad_item*item.prod.precio_bs).toLocaleString()}} bs </p>
+                  <p class="my-0 d-flex justify-content-end" style="width: 50%;"> {{(item.prod.unidad_item*item.prod.precio_arg).toLocaleString()}} arg </p>
+                </div>
+            </div>
+          </div>
+       </div>
+
+        <div class="row m-0">
+          <div class="col-5  p-0">
+            <div class="d-flex flex-column align-items-end">
+              <p class="my-0 px-2 py-1">Total:</p>
+            </div>
+          </div>
+          <div class="col-7 p-0">
+             <!-- Total Bs y Arg -->
+             <div class="d-flex py-1" style="padding-right: 10px;"> 
+              <p class="my-0 d-flex justify-content-end" style="width: 50%; padding-right: 5px;">{{ventas[0].total_bs.toLocaleString()}} bs</p>
+              <p class="my-0 d-flex justify-content-end" style="width: 50%;">{{ventas[0].total_arg.toLocaleString()}} arg</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-form">
+
+          <div class="opcion-divisa">
+            <div class="seleccionar">
+              <select class="custom-select" [(ngModel)]="divisaSelected" (change)="divisaInputChange()" aria-label="Default select example">
+                <option selected value="1">Boliviano</option>
+                <option value="2">Argentino</option>
+              </select>
+            </div>
+            <button class="btn btn-secondary" (click)="pagar_Pedido()">Pagar</button>
+          </div>
+          <div class="form-pagar">
+            <!-- Debe -->
+            <div class="debe">
+              <label>Debe</label> 
+              <input *ngIf="input_Bol" type="text" [(ngModel)]="debe_bs" disabled>
+              <input *ngIf="input_Arg" type="text" [(ngModel)]="debe_arg" disabled>
+            </div>
+            <div class="pagar">
+              <label>Pagar:</label> 
+              <input *ngIf="input_Bol" type="number"[(ngModel)]="formularioPagar.pagado_bs" placeholder="0 bs" (keyup)="cambioVenta()">
+              <input *ngIf="input_Arg" type="number"[(ngModel)]="formularioPagar.pag_arg" placeholder="0 arg" (keyup)="cambioVenta()">
+            </div>
+            <div class="cambio"> 
+              <label>Cambio:</label> 
+              <input *ngIf="input_Bol" type="number"[(ngModel)]="formularioPagar.cambio_bs" placeholder="0 bs">
+              <input *ngIf="input_Arg" type="number"[(ngModel)]="formularioPagar.cambio_arg" placeholder="0 arg"> 
+            </div>
+          </div>
+          <div class="pagados-list">
+            <ul class="list-group">
+              <li class="titulos list-group-item">
+                <div class="titulo-divisa">
+                  <h6>Medio de pago</h6>
+                </div>
+                <div class="titulo-pagado">
+                  <h6>Pagado</h6>
+                </div>
+                <div class="titulo-cambio">
+                  <h6>Cambio</h6>
+                </div>
+                <div class="btn-eliminar"> 
+                 <h6>Eliminar</h6>
+                </div>
+              </li>
+              <li class="boliviano list-group-item">
+                <div class="divisa">
+                  Bs.
+                </div>
+                <div class="pagado">
+                 {{ventas[0].pagado_bs}}
+                </div>
+                <div class="cambio">
+                 {{ventas[0].cambio_bs}}
+                </div>
+                <div class="btn-eliminar"> 
+                  <button class="btn btn-secondary" (click)="eliminarPagoDivisa(1)">x</button>  
+                </div>
+              </li>
+              <li class="argentino list-group-item">
+                <div class="divisa">
+                  Arg.
+                </div>
+                <div class="pagado">
+                  {{ventas[0].pag_arg}}
+                </div>
+                <div class="cambio">
+                  {{ventas[0].cambio_arg}}
+                </div>
+                <div class="btn-eliminar"> 
+                  <button class="btn btn-secondary" (click)="eliminarPagoDivisa(2)">x</button>  
+                </div>
+              </li>
+            </ul>
+          </div>
+  
+        </div>
+      
+
+        <!-- ------------------------------------------------------------------------------------ -->
+
+      </div>
+      <!-- Botones -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"*ngIf="this.Button_Registrar==1"(click)="limpiar_pagar_pedido()">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"*ngIf="this.Button_Modificar==1">Cancelar</button>
+        <button type="button" class="btn btn-success btn-exito" data-bs-dismiss="modal">Listo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ************************** MODAL DETALLE-OPCIONES VENTA ***************************************** -->
+<div #modalDetalleOpciones id="modalDetalleOpciones" class="modal modal-xl" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">Detalle Venta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="detalle" *ngIf="productoSelect[opcionesIndex]">
+          <div class="input-detalle d-flex align-items-center">
+            <input type="text" class="form-control" placeholder="detalle producto" style="height: 32px" [name]="'descript_item_' + opcionesIndex" [(ngModel)]="productoSelect[opcionesIndex].prod.descript_item">
+            <button class="btn btn-secondary" (click)="borrarDetalle(opcionesIndex)">B</button>
+          </div>  
+          <div class="opciones">
+            <div class="m-1" *ngFor="let o of productoSelect[opcionesIndex].prod.opciones">
+              <button class="btn btn-secondary" (click)="opcionDetalleVenta(o,opcionesIndex)">{{o}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Listo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL AGREGAR PRODUCTO ***************************************** -->
+<div #modalAddProducto id="modalAddProducto" class="modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content content-modal">
+      <div class="modal-header px-2 py-3" >
+        <!-- Container Opciones -->
+        <div class="opciones-productos p-0" style="background: #3c4756;">
+          <!-- Buscar -->
+          <div class="buscar mx-1">
+            <input type="text" class="form-control" placeholder="Buscar..." name="filterPost" [(ngModel)]="filterPost">
+          </div>
+          <!-- Seleccionar -->
+          <div class="seleccionar mx-1">
+            <select class="form-select" [(ngModel)]="categoriaSeleccionada" (change)="seleccionarLista()" aria-label="Default select example">
+              <option selected value="0">Todo</option>
+              <option *ngFor="let c of categoriasLista" [value]="c.cod_categoria">{{ c.nom_categoria }}</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary mx-2 p-0" data-bs-dismiss="modal">Listo</button>
+      </div>
+      <div class="modal-body text-center modal-pagar">
+        <!-- Container Lista Productos -->
+        <div class="lista-productos">
+          <div class="card" *ngFor="let p of productosLista | filter: filterPost : ['nom_pro']; let i=index" (click)="agregar_ProductoSeleccionado(p)">
+            <div class="card-body">
+              <h6 class="card-title">{{ p.nom_pro }}</h6>
+              <p class="card-text">{{ p.precio_bs }}bs - {{p.precio_arg}}ps</p>
+            </div>
+          </div>
+        </div>      
+     
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL AGREGAR DETALLE VENTA ***************************************** -->
+<div #modalDetalleVenta id="modalDetalleVenta" class="modal modal-lg" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-eliminar">
+    <div class="modal-content content-modal">
+      <div class="modal-header" (click)="closeOpciones()">
+        <h5 class="modal-title fs-5">Detalle Venta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="porciones" *ngIf="productoSelect[index] && productoSelect[index].prod.cod_categoria==1 && productoSelect[index].prod.precio_bs<40" (click)="closeOpciones()">
+          <div class="porcion" [ngClass]="{'cero-presas': productoSelect[index].item_presaA.unidad_presa==0}">
+            <div class="nom-presa">
+              <input type="text" class="form-control" placeholder="0" value="{{productoSelect[index].item_presaA.unidad_presa}}">
+              <h6 class="m-0">Ala</h6>
+            </div>
+            <div class="btn-porcion">
+              <button class="btn btn-secondary" (click)="botonPresa_Mas(productoSelect[index].item_presaA,index)">+</button>
+              <button class="btn btn-secondary" (click)="botonPresa_Menos(productoSelect[index].item_presaA)">-</button>
+            </div>
+          </div>
+          <div class="porcion" [ngClass]="{'cero-presas': productoSelect[index].item_presaPi.unidad_presa==0}">
+            <div class="nom-presa">
+              <input type="text" class="form-control" placeholder="0" value="{{productoSelect[index].item_presaPi.unidad_presa}}">
+              <h6 class="m-0">Pi</h6>
+            </div>
+            <div class="btn-porcion">
+              <button class="btn btn-secondary" (click)="botonPresa_Mas(productoSelect[index].item_presaPi,index)">+</button>
+              <button class="btn btn-secondary" (click)="botonPresa_Menos(productoSelect[index].item_presaPi)">-</button>
+            </div>
+          </div>
+          <div class="porcion"[ngClass]="{'cero-presas': productoSelect[index].item_presaPe.unidad_presa==0}">
+            <div class="nom-presa">
+              <input type="text" class="form-control" placeholder="0" value="{{productoSelect[index].item_presaPe.unidad_presa}}">
+              <h6 class="m-0">Pe</h6>
+            </div>
+            <div class="btn-porcion">
+              <button class="btn btn-secondary" (click)="botonPresa_Mas(productoSelect[index].item_presaPe,index)">+</button>
+              <button class="btn btn-secondary" (click)="botonPresa_Menos(productoSelect[index].item_presaPe)">-</button>
+            </div>
+          </div>
+        </div>
+        <div class="descripcion" *ngIf="productoSelect[index]" [ngClass]="{'cero-presas': productoSelect[index].prod.unidad_arroz==0, 'solo-descripcion': productoSelect[index].prod.cod_categoria!==1 || productoSelect[index].prod.precio_bs>40}">
+          <div class="detalle my-3">
+            <div class="input-detalle d-flex align-items-center">
+              <input type="text" class="form-control" placeholder="detalle producto" [name]="'descript_item_' + index" [(ngModel)]="productoSelect[index].prod.descript_item" (focus)="openOpciones()">
+              <button class="btn btn-secondary" (click)="borrarDetalle(index)">B</button>
+            </div>    
+            <div [ngStyle]="{'display':showOpciones ? 'block' : 'none'}">
+              <div class="opciones-movil" *ngIf="productoSelect[index].prod.opciones" (click)="closeOpciones()">
+                <div class="m-1" *ngFor="let o of productoSelect[index].prod.opciones">
+                  <button class="btn btn-secondary" (click)="opcionDetalleVenta(o,index)">{{o}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="arroz d-flex justify-content-between mb-1" *ngIf="productoSelect[index].prod.cod_categoria==1 && productoSelect[index].prod.precio_bs<40" (click)="closeOpciones()">
+            <div class="d-flex">
+              <div class="nom-arroz mx-2">
+                <input type="text" class="form-control" placeholder="0" value="{{productoSelect[index].prod.unidad_arroz}}">
+                <h6 class="m-0">c/a</h6>
+              </div>
+              <div class="btn-arroz">
+                <button class="btn btn-secondary" (click)="botonArroz_Menos(productoSelect[index].prod)">-</button>
+                <button class="btn btn-secondary" (click)="botonArroz_Mas(productoSelect[index].prod,index)">+</button>
+              </div>
+            </div>
+            <div class="p-llevar d-flex align-items-center">
+              <input class="form-check-input" type="checkbox" [name]="'item_llevar_' + index" [(ngModel)]="productoSelect[index].prod.item_llevar">
+              <h6 class="m-0">P/LL</h6>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer" (click)="closeOpciones()">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> -->
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MENSAJE TOAST ***************************************** -->
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="width: 200px;">
+  <div class="toast-header" id="toast-cabezera" style="background: #4a8557;color: #eeee;">
+    <strong class="me-auto">Mensaje</strong>
+    <small>1 mins ago</small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body" style="background: #eeee; font-weight: 500;">
+   {{mensaje_toast}}
+  </div>
+</div>

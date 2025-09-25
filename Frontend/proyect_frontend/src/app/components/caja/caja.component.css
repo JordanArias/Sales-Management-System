@@ -1,0 +1,201 @@
+
+.lista-cajas::-webkit-scrollbar {
+  width: 0.2em;
+  background-color: #333333; /* Cambia el color de fondo del scroll */
+}
+
+.lista-cajas::-webkit-scrollbar-thumb {
+  background-color: #888888f6; /* Cambia el color del thumb del scroll */
+}
+
+
+/*SECCION OPCIONES*/
+.container-opciones{
+  background: #21252b4f;
+  width: 100%;
+  padding: 8px 2px;
+}
+.container-agregar button{
+  font-weight: 600;
+  background: #28526b;
+  border: none;
+}
+
+/*LISTA DE CAJAS*/
+#container-lista-principal{
+  display: block;
+}
+.container-lista{
+  overflow: auto;
+  max-height: 77vh;
+  min-height: 50vh;
+  margin: 18px 0px;
+  padding: 0 180px;
+}
+.container-lista ul li{
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px 15px;
+  color: #dcdcdc;
+  background: #21252b;
+  border: none;
+  border-bottom: 1px solid #545252ee;
+}
+
+
+
+
+/* ****************** CONTAINER CARDS ****************** */
+#container-detalles-cards{
+  display: none;
+}
+/*LISTA DE CARDS*/
+.container-cards{
+  overflow: auto;
+  max-height: 77vh;
+  min-height: 50vh;
+  margin: 18px 0px;
+  padding: 0 300px;
+}
+/* .container-cards div{
+
+} */
+.container-cards .card{
+  margin-bottom: 12px;
+}
+.container-title-lista{
+  background: #323c4a;
+  border-top: 1px solid #676262;
+  border-bottom: 1px solid #676262;
+}
+.container-title-lista h6{
+  margin: 0;
+  padding: 6px 0;
+  color: #f4f4f4;
+  font-size: 19px;
+  text-align: center;
+}
+
+/* ****************** PARA LOS MODALES ****************** */
+.content-modal{
+  background: #3c4756;
+  color: #f3f3f3;
+  width: 80%;
+  font-size: 18px;
+  font-weight: 500;
+}
+.content-modal .modal-header{
+  border-bottom: 1px solid #727272;
+}
+.content-modal .modal-footer{
+  border-top: 1px solid #727272;
+}
+.custom-select{
+  width: 100%;
+  border-radius: 7px;
+  padding: 3px 7px;
+}
+
+.content-modal form input[type="text"],
+.content-modal form input[type="password"],
+.content-modal form input[type="number"],
+.custom-select{
+  color: #eaeaea;
+  background: #ffffff21;
+  border: none;
+  padding: 3px 12px;
+}
+
+.content-modal form input[type="text"]::placeholder,
+.content-modal form input[type="password"]::placeholder,
+.content-modal form input[type="number"]::placeholder {
+  font-size: 15px;
+  color: #c0c0c04b; /* Cambia el color según tu preferencia */
+}
+
+/* PARA DESAPARECER LAS FECHAS EN LOS INPUTS NUMBER */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; /* Puedes ajustar este valor para cambiar el espacio alrededor del input */
+}
+
+@media(max-width:1280px){
+  .container-lista{
+    padding: 0 15px;
+  }
+  .container-cards{
+    padding: 0 150px;
+  }
+  .container-lista ul li{
+    font-size: 16px;
+    padding-bottom: 15px;
+  }
+}
+
+
+
+@media(max-width:700px){
+  .container-lista ul li{
+    font-size: 15px;
+    padding-bottom: 20px;
+  }
+  .container-lista,.container-cards{
+    padding: 0 5px;
+  }
+  .container-agregar button,.boton-showdetalles button{
+    font-size: 12px;
+  }  
+  .container-buscador select{
+    font-size: 11px;
+  }
+
+}
+@media(max-width:520px){
+  .container-agregar button,.boton-showdetalles button{
+    padding: 6px 3px;
+  } 
+}
+
+@media(max-width:350px){
+  /* .container-agregar button {
+    font-size: 14px;
+    width: 123px;
+  } */
+  .container-lista ul li {
+    font-size: 12px;
+    padding-left: 6px;
+    padding-right: 0px;
+  }
+  .container-buscador select{
+    width: 80px;
+    font-size: 9px;
+    padding: 7px 2px;
+  }
+  .container-lista ul li button{
+    padding: 4px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos para centrar el toast en la parte superior y media de la pantalla */
+#toast {
+  position: fixed;
+  z-index: 5;
+  top: 120px; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Alinea al centro de la pantalla */
+  user-select: none;
+}

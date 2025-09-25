@@ -1,0 +1,266 @@
+<div class="container-principal">
+
+  <div id="container-pricipal-lista" *ngIf="container_lista">
+    <!-- CONTENIDO OPCIONES -->
+      <div class="container-opciones d-flex justify-content-around align-items-center px-3 py-2">
+        <!-- Buscador -->
+        <div class="container-buscador d-flex">
+          <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchedMesa">
+          <button class="btn btn-secondary mx-2" (click)="searchMesa()">Search</button>  
+        </div>
+        <!-- Boton Agregar Venta-->
+        <div class="container-agregar">
+            <button class="btn btn-secondary" (click)="cambiarVentana()">Para Llevar</button>
+        </div>
+      </div>
+      <!-- TITULO DE LISTA -->
+      <div class="container-title-lista">
+        <h6>Lista Pedidos</h6>
+      </div>
+    <!-- CONTENIDO LISTAS PEDIDOS -->
+      <div class="container-listas" id="container-listas" #ventasContainer *ngIf="container_lista">
+        <!-- Container Cards Pedidos -->
+          <div class="container-cards-pedidos">
+            <div class="align-items-stretch d-flex flex-wrap justify-content-center">
+              <ng-container class="align-items-stretch d-flex justify-content-center" *ngFor="let ventaDetalles of ventasConDetalles; let i = index" #element>
+                  <!-- lista # -->
+                  <div class="w-100" *ngIf="(i + 1) == 1 && i < ventasConDetalles.length - 1">
+                    <div class="col-12">
+                      <hr class="linea-separadora">
+                      <p class="texto-linea-separadora">Lista {{i+1}}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="container-cards m-2" id="element-{{i}}">
+                    <!-- Container Card -->
+                    <div class="card" (data-mesa)="ventaDetalles.venta.mesa" [attr.data-index]="i">
+                      <!-- Card Header -->
+                        <div class="card-header fs-5 d-flex justify-content-between py-1 px-1"[id]="'cabezera'+i"[style.backgroundColor]="ventaDetalles.venta.estado === 2 ? '#8e5c39' : (ventaDetalles.venta.estado === 3 ? '#5d5d5d' : '#22475d')">
+                          <!-- Indice  -->
+                          <div class="indice">
+                            <p class="card-title py-0 my-0">{{ventaDetalles.venta.ticket}}</p>
+                          </div>
+                          <!-- Numero de Mesa -->
+                          <div class="mesa">
+                            <p class="card-text py-0 my-0"[class.found]="mesaFound && (ventaDetalles.venta.mesa == searchedMesa)"*ngIf="ventaDetalles.venta.vent_llevar!=1">
+                              Mesa: {{ventaDetalles.venta.mesa}}
+                            </p> 
+                            <p class="card-text py-0 my-0"[class.found]="mesaFound && (ventaDetalles.venta.mesa == searchedMesa)"*ngIf="ventaDetalles.venta.vent_llevar==1">
+                              <strong [id]="'llevarPedido'+i"*ngIf="ventaDetalles.venta.vent_llevar==1"[style.color]="ventaDetalles.venta.estado === 3 ? '#f4f4f4' : '#ee7c3a'">P/LL</strong> # {{ventaDetalles.venta.mesa}} 
+                            </p>     
+                          </div>
+                          
+                          <div class="btn-group float-end d-flex justify-content-between" style="width: max-content;">
+                            <button type="button" class="btn-opciones mx-1 img-process" [id]="'process'+i" (click)="pedido_Proceso(ventaDetalles,i)"
+                              [style.backgroundColor]="ventaDetalles.venta.estado === 2 ? '#8c8c8c5e' : (ventaDetalles.venta.estado === 3 ? '#8c8c8c5e' : '#e9e9e900')"> <span></span></button>
+                            <button type="button" class="btn-opciones img-hecho" [id]="'hecho'+i" (click)="pedido_Entregado(ventaDetalles,i)"
+                              [style.backgroundColor]="ventaDetalles.venta.estado === 3 ? '#8c8c8c5e' : '#e9e9e900'"><span></span></button>
+                          </div>
+
+                        </div>
+
+
+
+
+
+
+      
+                      <!-- Card Body -->
+                      <div class="card-body px-1 py-0">
+                        <div class="d-flex justify-content-start align-items-center" *ngFor="let detalleItems of ventaDetalles.detalles" style="border-top: 1px solid #adadad;padding:15px 0px;">
+                          <!-- Producto Title -->
+                          <div class="title">
+                            <h6 class="card-subtitle py-0 my-0">{{detalleItems.detalle.unidad_item}} {{detalleItems.detalle.nom_pro }} <br> <strong [class]="'llevarItem'+i" *ngIf="detalleItems.detalle.item_llevar==1" [style.color]="ventaDetalles.venta.estado === 3 ? '#3e3e3e' : '#ee7c3a'" style="text-align: center;">P/LL</strong></h6>
+                            <!-- <p class="card-text py-0 my-0" style="color: #ee7c3a; text-align: center;font-weight: 700;">P/LL</p> -->
+                          </div>
+                          <!-- Presas Pollo -->
+                          <div class="presas">
+                              <p class="card-text py-0 my-0" *ngFor="let item of detalleItems.items">
+                                {{item.unidad_presa}}{{item.nom_presa}}
+                              </p>        
+                          </div>
+                          <!-- Descripcion Producto -->
+                          <div class="descripcion">
+                            <p class="card-text py-0 my-0">{{detalleItems.detalle.descript_item}}</p>
+                          </div>          
+                        </div>
+                        <!-- PRECIO TOTAL Y DETALLE DEL PEDIDO -->
+                        <div class="detalle-venta" *ngIf="ventaDetalles.venta.descrip_venta!==null && ventaDetalles.venta.descrip_venta!==''" style="border-top: 1px solid #adadad;">
+                          <p class="card-text text-center">
+                              {{ventaDetalles.venta.descrip_venta}} 
+                          </p>
+                        </div>
+                      </div>
+      
+                      <!-- Card Footer -->
+                      <div *ngIf="ventaDetalles.venta.pagado<99" class="card-footer d-flex justify-content-center px-1 py-1" style="background: #a15656; color: #f4f4f4;" >
+                        <p class="m-0">Falta Pagar</p>
+                      </div>
+      
+                    </div>
+      
+                  </div>
+      
+                  <!-- Agrega una fila adicional después de cada grupo de 5 tarjetas -->
+                  <div class="w-100" *ngIf="(i + 1) % 6 == 0 && i < ventasConDetalles.length - 1">
+                    <div class="col-12">
+                      <hr class="linea-separadora">
+                      <p class="texto-linea-separadora">Lista {{((i + 1) / 6)+1}}</p>
+                    </div>
+                  </div>
+      
+              </ng-container>
+            </div>
+          </div>
+  
+      </div>
+
+  </div>
+
+  <div id="container-pricipal-llevar" *ngIf="!container_lista">
+    <!-- CONTENIDO OPCIONES -->
+      <div class="container-opciones d-flex justify-content-around align-items-center px-3 py-2">
+        <!-- Buscador -->
+        <div class="container-buscador d-flex">
+          <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchedMesa">
+          <button class="btn btn-secondary mx-2" (click)="searchMesa_L()">Search</button>  
+        </div>
+        <!-- Boton Agregar Venta-->
+        <div class="container-agregar">
+            <button class="btn btn-secondary" (click)="cambiarVentana()">Pedidos</button>
+        </div>
+      </div>
+      <div class="container-title-lista">
+        <h6>Lista Para Llevar</h6>
+      </div>
+    <!-- CONTENIDO LISTAS LLEVAR -->
+      <div class="container-listas" #ventasContainer>
+        <!-- Container Cards Pedidos -->
+          <div class="container-cards-pedidos">
+            <div class="align-items-stretch d-flex flex-wrap justify-content-center">
+              <ng-container class="align-items-stretch d-flex justify-content-center" *ngFor="let ventaDetalles of ventasConDetallesLlevar; let i = index" #element>
+                  <!-- lista # -->
+                  <div class="w-100" *ngIf="(i + 1) == 1 && i < ventasConDetalles.length - 1">
+                    <div class="col-12">
+                      <hr class="linea-separadora">
+                      <p class="texto-linea-separadora">Lista {{i+1}}</p>
+                    </div>
+                  </div>
+                  
+                  <div class="container-cards m-2" id="element_p-{{i}}">
+                    <!-- Container Card -->
+                    <div class="card" (data-mesa)="ventaDetalles.venta.mesa" [attr.data-index]="i">
+                      <!-- Card Header -->
+                        <div class="card-header fs-5 d-flex justify-content-between py-1 px-1"[id]="'cabezera_p'+i"[style.backgroundColor]="ventaDetalles.venta.estado_l === 2 ? '#8e5c39' : (ventaDetalles.venta.estado_l === 3 ? '#5d5d5d' : '#22475d')">
+                          <!-- Indice  -->
+                          <div class="indice">
+                            <p class="card-title py-0 my-0">{{ventaDetalles.venta.ticket}}</p>
+                          </div>
+                          <!-- Numero de Mesa -->
+                          <div class="mesa">
+                            <p class="card-text py-0 my-0"[class.found]="mesaFound && (ventaDetalles.venta.mesa == searchedMesa)"*ngIf="ventaDetalles.venta.vent_llevar!=1">
+                              Mesa: {{ventaDetalles.venta.mesa}}
+                            </p> 
+                            <p class="card-text py-0 my-0"[class.found]="mesaFound && (ventaDetalles.venta.mesa == searchedMesa)"*ngIf="ventaDetalles.venta.vent_llevar==1">
+                              <strong id="llevarPedido_p"*ngIf="ventaDetalles.venta.vent_llevar==1">P/LL</strong> # {{ventaDetalles.venta.mesa}} 
+                            </p>     
+                          </div>
+                          
+                          <div class="btn-group float-end d-flex justify-content-between" style="width: max-content;">
+                            <button type="button" class="btn-opciones mx-1 img-process" [id]="'process_p'+i" (click)="pedido_Proceso_L(ventaDetalles,i)"
+                              [style.backgroundColor]="ventaDetalles.venta.estado_l  === 2 ? '#8c8c8c5e' : (ventaDetalles.venta.estado_l  === 3 ? '#8c8c8c5e' : '#e9e9e900')"> <span></span></button>
+                            <button type="button" class="btn-opciones img-hecho" [id]="'hecho_p'+i" (click)="pedido_Entregado_L(ventaDetalles,i)"
+                              [style.backgroundColor]="ventaDetalles.venta.estado_l  === 3 ? '#8c8c8c5e' : '#e9e9e900'"><span></span></button>
+                          </div>
+
+                        </div>
+
+
+
+
+
+
+      
+                      <!-- Card Body -->
+                      <div class="card-body px-1 py-0">
+                        <div class="d-flex justify-content-start align-items-center" *ngFor="let detalleItems of ventaDetalles.detalles" style="border-top: 1px solid #adadad;padding:15px 0px;">
+                          <!-- Producto Title -->
+                          <div class="title">
+                            <h6 class="card-subtitle py-0 my-0">{{detalleItems.detalle.unidad_item}} {{detalleItems.detalle.nom_pro }} <br> <strong [class]="'llevarItem_p'+i" *ngIf="detalleItems.detalle.item_llevar==1" [style.color]="ventaDetalles.venta.estado_l === 3 ? '#3e3e3e' : '#ee7c3a'" style="text-align: center;">P/LL</strong></h6>
+                            <!-- <p class="card-text py-0 my-0" style="color: #ee7c3a; text-align: center;font-weight: 700;">P/LL</p> -->
+                          </div>
+                          <!-- Presas Pollo -->
+                          <div class="presas">
+                              <p class="card-text py-0 my-0" *ngFor="let item of detalleItems.items">
+                                {{item.unidad_presa}}{{item.nom_presa}}
+                              </p>        
+                          </div>
+                          <!-- Descripcion Producto -->
+                          <div class="descripcion">
+                            <p class="card-text py-0 my-0">{{detalleItems.detalle.descript_item}}</p>
+                          </div>          
+                        </div>
+                        <!-- PRECIO TOTAL Y DETALLE DEL PEDIDO -->
+                        <div class="detalle-venta" *ngIf="ventaDetalles.venta.descrip_venta!==null && ventaDetalles.venta.descrip_venta!==''" style="border-top: 1px solid #adadad;">
+                          <p class="card-text text-center">
+                              {{ventaDetalles.venta.descrip_venta}} 
+                          </p>
+                        </div>
+                      </div>
+      
+                      <!-- Card Footer -->
+                      <div *ngIf="ventaDetalles.venta.pagado<99" class="card-footer d-flex justify-content-center px-1 py-1" style="background: #a15656; color: #f4f4f4;" >
+                        <p class="m-0">Falta Pagar</p>
+                      </div>
+      
+                    </div>
+      
+                  </div>
+      
+                  <!-- Agrega una fila adicional después de cada grupo de 5 tarjetas -->
+                  <div class="w-100" *ngIf="(i + 1) % 6 == 0 && i < ventasConDetalles.length - 1">
+                    <div class="col-12">
+                      <hr class="linea-separadora">
+                      <p class="texto-linea-separadora">Lista {{((i + 1) / 6)+1}}</p>
+                    </div>
+                  </div>
+      
+              </ng-container>
+            </div>
+          </div>
+  
+      </div>
+  </div>
+
+  <button (click)="boton_HaciaAbajo()" class="btn btn-secondary btn-abajo">▼</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

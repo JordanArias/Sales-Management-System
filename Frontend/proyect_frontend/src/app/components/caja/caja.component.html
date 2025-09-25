@@ -1,0 +1,337 @@
+ 
+  <div class="container-principal">
+
+  <!-- ******************* CONTAINER PRINCIPAL LISTA ******************* -->
+      <div class="container-lista-principal" id="container-lista-principal">
+        <!-- CONTAINER OPCIONES LISTA:: BUSCAR Y AGREGAR -->
+        <div class="container-opciones">
+          <!-- Buscador -->
+          <div class="container-buscador d-flex justify-content-around">
+            <div class="d-flex align-items-center">
+              <div class="select-mes" style="margin: 0 2px;">
+                <select class="form-select select-buscar" id="inputGroupSelect04" aria-label="Example select with button addon" [(ngModel)]="monthSelected">
+                  <option selected value="0">Mes...</option>
+                  <option value="1">Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5">Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10">Octubre</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+              </div>
+              <div class="select-year" style="margin: 0 2px;">
+                <select class="form-select select-buscar" id="inputGroupSelect04" aria-label="Example select with button addon" [(ngModel)]="yearSelected">
+                  <option selected value="0">Año...</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                </select>
+              </div>
+              <div class="boton-showdetalles">
+                <button class="btn btn-secondary" type="button" (click)="show_Detalles_Mes(1)">Detalles Mes</button>
+              </div>
+            </div>
+            <!-- Boton Agregar -->
+            <div class="container-agregar">
+              <button class="btn btn-secondary" (click)="showModalAgregar()">Agregar Caja</button>
+            </div> 
+          </div>
+        </div>
+        <!-- CONTAINER LISTA:: LISTA CAJA -->
+        <div class="container-lista">
+          <ul class="list-group p-0" style="border: none;">
+            <!-- Titulos -->
+            <li class="list-group-item lista-caja">
+              <div class="row mx-0">
+                <div class="col-1 col-sm-2 col-md-1 col-lg-1 px-0">Caja</div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 px-0">Fecha</div>
+                <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">Bs</div>
+                <div class="col-3 col-sm-3 col-md-3 col-lg-2 px-0">Arg</div>
+                <div class="col-2 col-sm-1 col-md-2 col-lg-2 px-0">Ventas</div>
+                <div class="col-1 col-sm-1 col-md-1 col-lg-1 px-0">Op</div>
+              </div>
+            </li>
+            <!-- Lista Cajas -->
+            <li class="list-group-item lista-caja" *ngFor="let c of cajaList; let i = index">
+              <div class="row mx-0">
+                <!-- Caja Estado -->
+                <div class="col-1 col-sm-2 col-md-1 col-lg-1 px-0">
+                    <div [ngStyle]="{'color': (c.estado === 1) ? '#d55b5b' : (c.estado === 0) ? '#61bb61' : ''}">{{c.cod_caja}}</div>
+                </div>
+                <!-- Fecha -->
+                <div class="col-3 col-sm-3 col-md-3 col-lg-3 px-0">
+                  <div class="row mx-0">
+                    <div class="col-12 px-0">{{c.fecha}}</div>
+                    <div class="col-12 px-0">{{c.hr_apertura}} &nbsp; {{c.hr_cierre}}</div>
+                  </div>
+                </div>
+                <!-- Saldo Inicial Bs -->
+                <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">
+                  <div class="row mx-0">
+                      <div class="col-12 px-0" style="color: #d4da8f">Bs. {{c.saldoini_bs}}</div>
+                      <div class="col-12 px-0" style="color: #a7e29eee;">Bs. {{c.saldofin_bs}}</div>
+                  </div>
+                </div>
+                <!-- Saldo Inicial Arg -->
+                <div class="col-3 col-sm-3 col-md-3 col-lg-2 px-0">
+                  <div class="row mx-0">
+                      <div class="col-12 px-0" style="color: #d4da8f">Arg. {{c.saldoini_arg}}</div>
+                      <div class="col-12 px-0" style="color: #a7e29eee;">Arg. {{c.saldofin_arg}}</div>
+                  </div>
+                </div>
+                <!-- Numero de Ventas -->
+                <div class="col-2 col-sm-1 col-md-2 col-lg-2 px-0">{{c.cant_items}}</div>
+                <!-- Opciones Caja -->
+                <div class="col-1 col-sm-1 col-md-1 col-lg-1 px-0">
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn" id="dropdownBasic1" ngbDropdownToggle style="background: #f6f6f60a; color: #eeee;"></button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem (click)="showModalModificar(c)">Modificar</button>
+                      <button ngbDropdownItem (click)="showModalEliminar(c)">Eliminar</button>
+                      <button ngbDropdownItem (click)="listar_CajaSeleccionada(c)">Listar</button>
+                      <button ngbDropdownItem (click)="showModalCerrar(c)">Cerrar</button>
+                      <button ngbDropdownItem (click)="show_Detalles_Caja(c)">Detalles</button>
+                      <button ngbDropdownItem (click)="showModalEliminarTodo(c)">Eliminar Todo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+  <!-- ******************* CONTAINER PRINCIPAL CARDS ******************* -->
+      <div class="container-cards-principal" id="container-detalles-cards">
+
+        <!-- CONTAINER OPCIONES CARDS -->
+        <div class="container-opciones d-flex justify-content-around align-items-center">
+          <!-- Boton Ver Lista -->          
+          <div class="container-agregar">
+            <button class="btn btn-secondary" (click)="show_Detalles_Mes(2)">Ver Lista</button>
+          </div> 
+        </div>
+
+        <!-- DATOS DEL MES O CAJA -->
+        <div class="container-title-lista">
+          <div style="color: #f4f4f4;">
+            <div *ngIf="mes; else cajaInfo">
+              <h6 class="card-text mb-1">Mes: {{fechaShow}}</h6>
+            </div>
+            <ng-template #cajaInfo>
+              <h6 class="card-text mb-1">
+                Caja: {{cajaShow.cod_caja}} &nbsp; fecha: {{cajaShow.fecha}} &nbsp; saldo_bs: {{cajaShow.saldofin_bs}} &nbsp; saldo_arg: {{cajaShow.saldofin_arg}} &nbsp; ventas: {{cajaShow.cant_items}}
+              </h6>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- CONTAINER LISTA CARDS -->
+        <div class="container-cards row mx-0">
+
+          <div *ngFor="let detalles of detalle_productos">
+
+            <div class="card" style="background: #212529; color: #f4f4f4">
+              <div class="card-body">
+                <h5 class="card-title">{{detalles.categoria}}</h5>
+                <div class="row mx-0" *ngFor="let p of detalles.productos">
+                  <div class="col-4 px-0">
+                    <p class="card-text my-1">{{p.nom_pro}}</p>
+                  </div>
+                  <div class="col-4 px-0 text-end" style="font-weight: bold; color: #548e42;">
+                    <p class="card-text my-1">{{p.cantidad_vendida}}</p>
+                  </div>
+                  <div class="col-4 px-0 text-end" style="font-weight: bold; color: rgb(206, 206, 206);">
+                    <p class="card-text my-1"> {{ p.porcentaje }}%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+         
+        </div>
+
+      </div>
+
+  </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+ <!-- *********************************************************************************************************************************************************************************************** -->
+ 
+ <!-- ************************************************ Contenido Caja **************************************************  -->
+
+
+
+
+<!-- ************************************************ MODALES **************************************************  -->
+<!-- ***********************************************************************************************************  -->  
+
+<!-- ****************************** MODAL AGREGAR NUEVA CAJA *****************************************  -->
+<div #modalAgregarCaja id="modalAgregarCaja" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered modal-agregar">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Agregar Caja</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form #formCaja="ngForm" class="row g-3" (ngSubmit)="agregarCaja()">
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Bs:</label>
+            <input type="number" #saldoini_bs="ngModel" [(ngModel)]="cajap.saldoini_bs" name="precio_bs" class="form-control" placeholder="Precio Bs." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="saldoini_bs.touched && !saldoini_bs.valid || saldoini_bs.value<0">El Monto no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Arg:</label>
+            <input type="number" #saldoini_arg="ngModel" [(ngModel)]="cajap.saldoini_arg" name="precio_arg" class="form-control" placeholder="Precio Arg." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="saldoini_arg.touched && !saldoini_arg.valid || saldoini_arg.value<0">El Monto no es valido</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-success" [disabled]="!formCaja.form.valid || !formCaja.form.touched ">Agregar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL MODFICIAR CAJA *****************************************  -->
+<div #modalModificarCaja id="modalModificarCaja" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered modal-agregar">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Modificar Caja</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form #formCaja="ngForm" class="row g-3" (ngSubmit)="modificarCaja()">
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Saldo Incial Bs:</label>
+            <input type="number" #saldoini_bs="ngModel" [(ngModel)]="cajap.saldoini_bs" name="precio_bs" class="form-control" placeholder="Saldo Bs." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="saldoini_bs.touched && !saldoini_bs.valid || saldoini_bs.value<0">El Monto no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Saldo Inicial Arg:</label>
+            <input type="number" #saldoini_arg="ngModel" [(ngModel)]="cajap.saldoini_arg" name="precio_arg" class="form-control" placeholder="Saldo Arg." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="saldoini_arg.touched && !saldoini_arg.valid || saldoini_arg.value<0">El Monto no es valido</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-info" [disabled]="!formCaja.form.valid">Modificar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL DELETE CAJA ***************************************** -->
+<div #modalEliminarCaja id="modalEliminarCaja" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-agregar">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR CAJA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de Eliminar "<strong>{{cajap.cod_caja}}</strong>"</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminarCaja()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL CERRAR CAJA ***************************************** -->
+<div #modalCerrarCaja id="modalCerrarCaja" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-agregar">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">CERRAR CAJA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center" style="font-size: 20px;">
+        <p><b>Cerrar caja: </b> {{cajap.cod_caja}}</p>
+        <p><b>Fecha: </b> {{cajap.fecha}} {{cajap.hr_apertura}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="cerrarCaja()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL DELETE CAJA ***************************************** -->
+<div #modalEliminarTodaCaja id="modalEliminarTodaCaja" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-agregar">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR TODA LA CAJA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Se eliminaran todas las ventas de la Caja: "<strong>{{cajap.cod_caja}}</strong>"</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminar_TodaCaja()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ****************************** MENSAJE TOAST ***************************************** -->
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="width: 200px;">
+  <div class="toast-header" id="toast-cabezera" style="background: #4a8557;color: #eeee;">
+    <strong class="me-auto">Mensaje</strong>
+    <small>1 mins ago</small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body" style="background: #eeee; font-weight: 500;">
+   {{mensaje_toast}}
+  </div>
+</div>
+

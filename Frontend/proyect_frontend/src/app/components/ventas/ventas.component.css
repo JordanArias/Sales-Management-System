@@ -1,0 +1,896 @@
+/* CABEZERA OPCIONES */
+.container-opciones{
+  background: #21252b4f;
+  width: 100%;
+}
+.container-agregar button{
+  font-weight: 600;
+  background: #28526b;
+  border: none;
+}
+/* Container Cards Y Forms */
+.container-listas{
+  min-height: 69vh;
+  max-height: 80vh;
+  overflow: auto;
+  margin-top: 10px;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+}
+/* *************** CONTAINER CARDS *************** */
+.container-cards-pedidos{
+  display: flex;
+  width: 83%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* CARD */
+.card{
+  background: none;
+  border: none;
+  overflow: hidden;
+  border-radius: 10px;
+  width: 18rem; 
+  height: 100%;
+}
+.card .card-header{
+  background: #22475d;
+}
+.card .card-header .indice{
+  color: #f4f4f4;
+  border: 1px solid #ababab;
+  border-radius: 9px;
+  width: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-header .mesa{
+  color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  font-size: 23px;
+  font-weight: 500;
+}
+.card-header .venta-menu{
+  position: absolute;
+  top: 0px;
+  right: 48px;
+  display: block;
+  background: rgb(51, 59, 72);
+  color: rgb(244, 244, 244);
+  border-radius: 10px;
+  padding: 0px;
+  width: 50%;
+}
+.card-header .venta-menu button{
+  padding: 9px 13px;
+  font-size: 17px;  
+  font-weight: 600;
+}
+/* Card Body */
+.card-body{
+  background: #efefef;
+}
+.card-body .title{
+  width: 45%;
+}
+.card-body .title h6{
+  font-size: 17px;
+  font-weight: 500;
+  width: fit-content;
+  text-align: left;
+}
+.card-body .presas{
+  width: 15%;
+  font-size: 16px;
+  font-weight: 500;
+}
+.card-body .descripcion{
+  width: 40%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #28526b;
+}
+/* Card Footer */
+.card-footer{
+  background: #dfdfdf;
+}
+/* *************** CONTAINER LISTA PRODUCTOS *************** */
+/* Estilo de la línea separadora */
+.linea-separadora {
+  border: 4px solid #a9a8a8; /* Ajusta el grosor y color de la línea según tu preferencia */
+  margin-bottom: 0/* Controla el espacio vertical alrededor de la línea */
+}
+.texto-linea-separadora {
+  font-size: 20px;
+  color: white;
+  text-align: center; /* Alinea el texto en el centro */
+  margin: 0px; /* Agrega espacio superior para separar el texto de la línea */
+  font-weight: bold; /* Puedes ajustar la negrita según lo desees */
+}
+.container-venta{
+  display: flex;
+  height: 92.3vh;
+}
+.container-lista-productos{
+  width: 50%;
+}
+.opciones-productos{
+  display: flex;
+  justify-content: space-between;
+  background: #28526b;
+  padding: 10px;
+  border-radius: 3px;
+}
+.lista-productos{
+  height: 83vh;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+.lista-productos .card{
+  cursor: pointer;
+  margin: 5px;
+  max-width: 23%;
+  min-width: 20%;
+  height: 77px;
+}
+.lista-productos .card-body{
+  padding: 8px 3px;
+  text-align: center;
+  background: #efefef;
+  color: #272727;
+}
+
+/* *************** CONTAINER FORM VENTA *************** */
+/*FORM VENTA */
+.container-form-venta{
+  width: 50%;
+}
+.form-venta{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #323b47;
+  color: #f4f4f4;
+  font-size: 17px;
+  font-weight: 500;
+}
+.form-venta input{
+  height: 36px;
+}
+.form-venta .mesa{
+  display: flex;
+  align-items: center;
+  width: 20%;
+}
+.form-venta .mesa input,.form-venta .p-ll input{
+  padding: 0;
+  margin: 0;
+  width: 42px;
+  text-align: center;
+}
+.form-venta .descripcion{
+  width: 20%;
+}
+.form-venta .opciones-descripcion{
+  position: fixed;
+  left: 79%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  background: #1d2734;
+  width: max-content;
+  border-radius: 6px;
+  z-index: 2;
+  padding: 12px;
+  display: flex;
+} 
+.form-venta .opciones-descripcion p{
+  background: #3a4656;
+  margin: 2px 4px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form-venta .p-ll{
+  width: 20%;
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-productos{
+  width: 20%;
+  display: none;
+}
+
+.lista-seleccionados{
+  overflow: auto;
+  min-height: 0vh;
+  max-height: 74vh;
+}
+
+.btn-add-productos button{
+  padding: 0;
+  font-weight: bolder;
+  border: none;
+  background: #3b6683;
+  width: 60px;
+  height: 46px;  
+}
+/* LISTA SELECCIONADOS */
+.list-group-item{
+  padding: 13px 10px;
+}
+.lista-seleccionados .lista-agregados{
+  display: flex;
+  justify-content: space-between;
+}
+.cantidad{
+  min-width: 15%;
+  max-width: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.cantidad .btn-producto{
+  display: flex;
+  justify-content: center;
+}
+.cantidad button{
+  padding: 0;
+  border: none;
+  width: 30px;
+  height: 30px;
+  background: #3a6279;
+  font-weight: bold;
+}
+.cantidad input, .porciones input, .descripcion .nom-arroz input{
+  padding: 2px;
+  text-align: center;
+  width: 30px;
+  margin: 0px 3px;
+  font-weight: 700;
+  background-color: #f4f4f417;
+  color: #e9e9e9;
+  border: none;
+}
+.porciones-laptop{
+  display: flex;
+  justify-content: center;
+}
+.porciones-descripcion{
+  display: none;
+  width: 171px;
+  margin: auto;
+}
+.porciones-descripcion .presas-movil{
+  display: flex;
+  justify-content: space-between;
+}
+.porciones-descripcion .descripcion-movil{
+  display: flex;
+  color: #a7a7a7;
+  justify-content: space-between;
+}
+.porciones{
+  display: block;
+  min-width: 25%;
+}
+.porciones .porcion{
+  display: flex;
+  padding: 0px;
+  margin: 2px 0px;
+  align-items: center;
+}
+.porciones .nom-presa{
+  width: 65px;
+  display: flex;
+  align-items: center;
+}
+.porciones .btn-porcion{
+  display: flex;
+}
+.porciones button,.descripcion button{
+  margin: 0 2px;
+  padding: 0;
+  border: none;
+  width: 30px;
+  height: 30px;
+  background: #405d6e;
+  font-weight: bold;
+}
+.lista-agregados .descripcion{
+  display: block;
+  max-width: 80%;
+}
+.descripcion .arroz .nom-arroz{
+  min-width: 25%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+/* .descripcion .detalle input::placeholder{
+  background-color: #003a53;
+} */
+.descripcion .detalle input{
+  border: none;
+  color: #f4f4f4;
+  background: #5a6574;  
+}
+.descripcion .detalle input::placeholder{
+  color: #c4c4c4;
+}
+.descripcion .p-llevar input{
+  border: none;
+  background-color: #5a6574;
+  width: 29px;
+  height: 24px;
+  margin: 3px 4px;
+}
+.descripcion .p-llevar input:checked,
+.form-venta input:checked{
+  background-color: #d48e51;
+  border: none;
+}
+.descripcion .opciones {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: #f4f4f4;
+  color: #272727;
+  border-radius: 10px;
+  padding: 8px;
+  min-width: min-content;
+  z-index: 10000;
+}
+.eliminar button img{
+  max-width: 30px;
+}
+.cero-presas .nom-presa, .cero-presas .nom-arroz{
+  color: #777777;
+} 
+.cero-presas .nom-presa input, .cero-presas .nom-arroz input{
+  color: #58585800;
+  font-weight: 100;
+  background: #ffffff08;
+}
+.cero-presas button{
+  color: #7d7d7d;
+  background: #5f5f5f45;
+}
+.solo-descripcion{
+  display: flex;
+  align-items: center;
+  min-width: 65%;
+  justify-content: space-around;
+} 
+/* Form Footer Venta */
+.form-footer{
+  display: flex;
+  background: #323b47;
+  justify-content: space-between;
+  padding: 12px 12px;
+}
+.form-footer .botones{
+  display: flex;
+  width: 55%;
+  justify-content: space-between;
+}
+.form-footer .botones button{
+  width: 100%;
+  border-radius: 7px;
+  border: none;
+  height: 62px;
+}
+.botones .btn-agregar button{
+  background: #3b6781;
+}
+.form-footer .totales{
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  color: #c3c2c2;
+  font-size: 17px;
+}
+.form-footer .totales .precios{
+  padding-left: 6px;
+}
+.form-footer .btn-pagar button{
+  border-radius: 7px;
+  height: 62px;
+  background: #54a945ee;
+}
+
+/* ************************** MODALES ************************** */
+/*FONDO PARA LOS MODALES (192.168.1.4 chrome://inspect/#devices)*/
+.modal-dialog-centered {
+  display: flex;
+  justify-content: center;
+}
+.content-modal{
+  background: #3c4756;
+  color: #f3f3f3;
+  width: 80%;
+  font-size: 18px;
+  font-weight: 500;
+}
+.content-modal .modal-header{
+  border-bottom: 1px solid #727272;
+}
+.content-modal .modal-footer{
+  border-top: 1px solid #727272;
+}
+.custom-select{
+  width: 100%;
+  border-radius: 7px;
+  padding: 3px 7px;
+}
+.content-modal .porciones{
+  display: flex;
+  justify-content: space-around;
+}
+.content-modal .descripcion{
+  max-width: 100%;
+}
+.content-modal .descripcion .nom-arroz{
+  min-width: 18%;
+}
+#modalAddProducto .content-modal .modal-header button{
+  border: none;
+  background: #3a6ca1;
+  width: 91px;
+  height: 37px;
+  font-weight: 500;
+  font-size: 18px;
+}
+#modalAddProducto .content-modal{
+  width: 95%;
+}
+#modalDetalleVenta .content-modal{
+  width: 100%;
+}
+#modalDetalleVenta .nom-presa input, #modalDetalleVenta .nom-arroz input, #modalDetalleVenta .p-llevar input{
+  width: 40px;
+  height: 37px;
+  font-size: 16px;
+}
+#modalDetalleVenta .detalle button,#modalDetalleOpciones .detalle .input-detalle button,.descripcion-laptop .detalle button{
+  color: #f4f4f4;
+  background: #5a6574;
+  min-height: 36px;
+  width: 40px;
+  margin: 0 6px;
+}
+#modalDetalleVenta .opciones-movil{
+  display: flex;
+  flex-wrap: wrap;
+}
+#modalDetalleVenta .opciones-movil button{
+  color: #d9d9d9;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 5px;
+  width: max-content;
+  background: #898989;
+  background: #7d7d7d;
+}
+#modalDetalleVenta .btn-porcion{
+  display: flex;
+  flex-direction: column;
+}
+#modalDetalleVenta .btn-porcion button{
+  width: 38px;
+  height: 38px;
+  margin: 4px 0px
+}
+#modalDetalleVenta .arroz button{
+  width: 38px;
+  height: 37px;
+  margin: 0 4px;
+}
+#modalDetalleOpciones .modal-dialog{
+  display: flex;
+  justify-content: flex-end;
+}
+#modalDetalleOpciones .content-modal{
+  width: 36%;
+}
+#modalDetalleOpciones .detalle .opciones{
+  display: flex;
+  flex-wrap: wrap;
+}
+/* MODAL PAGAR PRODUCTO*/
+.unidad_producto-p{
+  border-right: 1px solid #050505;
+  width: 200px;
+  text-align: initial;
+}
+.precio-bs-p{
+  text-align: end;
+  width: 100px;
+  margin: 0px 0px;
+}
+.precio-arg-p{
+  text-align: end;
+  width: 140px;
+  margin: 0px 0px;
+}
+.pagado-bs-p{
+  background: #404d5f;
+  text-align: end;
+  align-self: center;
+  color: #f4f4f4;
+  border: 1px solid #87878747;
+  border-radius: 5px;
+  width: 68px;
+  height: 28px;
+}
+.pagado-arg-p{
+  background: #404d5f;
+  text-align: end;
+  align-self: center;
+  color: #f4f4f4;
+  border: 1px solid #87878747;
+  border-radius: 5px;
+  width: 82px;
+  height: 28px;
+}
+/* MODAL PAGAR PRODUCTO*/
+#modalPagar .modal-pagar{
+  font-size: 18px;
+}
+#modalPagar .container-form{
+  background: #323c49;
+  padding: 14px 0;
+}
+#modalPagar .opcion-divisa{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#modalPagar .opcion-divisa .seleccionar{
+  width: max-content;
+}
+#modalPagar .opcion-divisa .btn-pagar button,
+#modalPagar .opcion-divisa .seleccionar select{
+  width: 100%;
+  min-height: 35px;
+  font-size: 20px;
+  padding: 0;  
+}
+#modalPagar .opcion-divisa .seleccionar option{
+  font-size: 15px;
+  border: none;
+}
+#modalPagar .custom-select{
+  color: #eaeaea;
+  background: #ffffff21;
+  border: none;
+}
+#modalPagar .custom-select option{
+ color: #f4f4f4;
+ background: #3c4756;
+}
+#modalPagar .form-pagar{
+  display: flex;
+  font-size: 18px;
+  margin: 10px 5px;
+  padding: 8px 0px;
+  justify-content: space-around;
+  border: 1px solid #747474;
+  border-radius: 8px;
+}
+#modalPagar .pagados-list{
+  width: 90%;
+  margin: 10px auto;
+}
+#modalPagar .form-pagar input{
+  margin: 0 4px;
+  padding: 2px 5px;
+  color: #f4f4f4;
+  width: 68px;
+  background: #4c596b;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+}
+#modalPagar ul li{
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  background: #35404e;
+  color: #f4f4f4;
+  font-size: 18px;
+  border: 1px solid #5f5f5f;
+}
+#modalPagar ul li div{
+  width: 25%;
+}
+.content-modal form input[type="text"],
+.content-modal form input[type="password"],
+.content-modal form input[type="number"],
+.custom-select{
+  color: #eaeaea;
+  background: #ffffff21;
+  border: none;
+}
+/* Estilos para el select option */
+.custom-select option{
+  color: #eaeaea;
+  background: #3c4756;
+}
+.content-modal form input[type="text"]::placeholder,
+.content-modal form input[type="password"]::placeholder,
+.content-modal form input[type="number"]::placeholder {
+  font-size: 15px;
+  color: #c0c0c04b; /* Cambia el color según tu preferencia */
+}
+
+/* ****************** <li> Listas ****************** */
+.lista-seleccionados .list-group-item:nth-child(even) {/* Estilo para elementos pares del primer nivel */
+  border: none;
+  border-top: 1px solid #676767ee;
+  border-bottom: 1px solid #676767ee;
+  color: #f4f4f4;
+  background-color: #3f4c5d;
+}
+.lista-seleccionados .list-group-item:nth-child(odd) {/* Estilo para elementos impares del primer nivel */
+  border: none;
+  border-radius: 0px;
+  color: #f4f4f4;
+  background-color: #343e4b;
+}
+ngx-extended-pdf-viewer .html {
+  height: 400px !important;
+}
+
+/* ****************** Scrool Bar ****************** */
+.container-listas::-webkit-scrollbar,
+.lista-seleccionados::-webkit-scrollbar,
+.lista-productos::-webkit-scrollbar  {
+  width: 0.2em;
+  background-color: #3333332d; /* Cambia el color de fondo del scroll */
+}
+.container-listas::-webkit-scrollbar-thumb,
+.lista-seleccionados::-webkit-scrollbar-thumb,
+.lista-productos::-webkit-scrollbar-thumb {
+  background-color: #88888827; /* Cambia el color del thumb del scroll */
+}
+/* Ocultar las flechas predeterminadas */
+/* Estilo para ocultar las flechas de incremento y decremento en el input de tipo number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; /* Puedes ajustar este valor para cambiar el espacio alrededor del input */
+}
+
+#toast {
+  position: fixed;
+  top: 120px; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Alinea al centro de la pantalla */
+  user-select: none;
+}
+@media(max-width:1280px){
+  .container-lista-productos{
+    width: 40%;
+  }
+  .container-form-venta{
+    width: 60%;
+  }
+  .container-lista-productos .buscar,.container-lista-productos .seleccionar{
+    width: 45%;
+  }
+  .lista-productos{
+    align-content: flex-start;
+  }
+  .lista-productos .card{
+    min-width: 144px;
+    height: 80px;
+  }
+  .lista-agregados h6,.cantidad input, .porciones input, .descripcion .nom-arroz input{
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .porciones{
+    min-width: 30%;
+  }
+  .descripcion{
+    max-width: 30%;
+  }
+  .descripcion .p-llevar input{
+    width: 25px;
+    height: 23px;
+  }
+  .descripcion .detalle input::placeholder{
+    font-size: 13px;
+  }
+  .eliminar button img{
+    max-width: 25px;
+  }
+  .form-footer{
+    padding: 8px 12px;
+    height: 65px;
+  }
+  .form-footer .botones{
+    width: 40%;
+  }
+  .form-footer .botones button,.form-footer .totales button{
+    width: 85px;
+    height: 48px;
+    padding: 0;
+  }
+}
+@media(min-width: 901px) and (max-width: 1000px) {
+  .container-lista-productos{
+    display: block;
+  }
+  .container-lista-productos{
+    width: 30%;
+  }
+  .container-form-venta{
+    width: 70%;
+  }
+  .lista-productos .card{
+    min-width: 97px;
+    height: 80px;
+    font-size: 13px;
+  }
+  .lista-productos .card h6{
+    font-size: 14px;
+  }
+}
+@media(max-width: 900px) {
+  .container-cards-pedidos{
+    width: 100%;
+  }
+  .form-venta .mesa input,.form-venta .p-ll input{
+    width: 36px;
+  }
+  .form-venta label{
+    width: 40px;
+  }
+  .container-opciones input{
+    width: 90px;
+  }
+  .container-lista-productos{
+    display: none;
+  }
+  .btn-add-productos,.porciones-descripcion{
+    display: block;
+  }
+  .lista-agregados .porciones-laptop,.lista-agregados .descripcion-laptop{
+    display: none;
+  }
+  .container-form-venta{
+    width: 100%;
+  }
+  .form-footer .botones button,.form-footer .totales button{
+    width: 71px;
+    font-size: 15px;
+    margin: 0 3px;
+  }
+  .form-footer .totales,.form-footer .total-titulo h6{
+    font-size: 14px;
+  } 
+  .lista-productos{
+    height: max-content;
+    display: flex;
+    justify-content: center;
+  }
+  .lista-productos .card-body{
+    padding: 4px;
+    font-size: 16px;
+    color: #3a3a3a;
+  }
+  .form-venta .opciones-descripcion {
+    left: 50%;
+    top: 16%;
+  }
+}
+@media(max-width:700px){
+  .card{
+    width: 18rem;
+  }
+  .card-body .title .card-subtitle, 
+  .card-body .presas{
+    font-size: 20px;
+  }
+  .card-body .descripcion{
+    font-size: 17px;
+  }
+  .card-footer {
+    font-size: 18px;
+  }
+  .pagado-bs-p{
+    width: 58px;
+  }
+  .pagado-arg-p{
+    width: 62px;
+  }
+  .modal-pagar{
+    font-size: 19px;
+  }
+  .form-venta{
+    padding: 5px;
+    font-size: 12px;
+  }
+  .form-venta input{
+    height: 30px;
+  }
+  .btn-add-productos button{
+    height: 35px;
+    width: 70px;
+  }
+  .form-venta .descripcion input::placeholder{
+    font-size: 7px;
+  }
+  #modalPagar .content-modal,#modalgenerarpdf .content-modal{
+    width: 95%;
+  }
+}
+@media(max-width:600px){
+  .card{
+    width: 22rem;
+  }
+}
+@media(max-width:350px){
+  .card{
+    width: 18rem;
+  }
+  .btn-add-productos button{
+    width: 50px;
+  }
+  #modalDetalleVenta .nom-presa input, 
+  #modalDetalleVenta .nom-arroz input, 
+  #modalDetalleVenta .p-llevar input{
+    width: 34px;
+    height: 33px;
+  }
+  #modalDetalleVenta .btn-porcion button{
+    width: 35px;
+    height: 35px;
+  }
+  .container-agregar button{
+    font-size: 13px;
+    padding: 0;
+    height: 37px;
+    width: 100px;
+  }
+  #modalPagar .modal-pagar {
+    font-size: 16px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,361 @@
+    <!-- NAV HORIZONTAL -->
+    <div class="container-principal">
+
+      <!-- Opciones: Buscar - Agregar -->
+      <div class="d-flex justify-content-around align-items-center px-3 py-2 container-opciones">
+        <!-- Buscador -->
+        <div class="container-buscador">
+          <input type="text" class="form-control" placeholder="Buscar" name="filterPost" [(ngModel)]="filterPost">
+        </div>
+
+        <!-- Boton Cambiar Lista -->
+        <div class="container-change">
+          <button class="btn btn-secondary" (click)="show_Listas()">{{this.name_boton}}</button>
+        </div>
+        <!-- Boton Agregar Producto-->
+        <div class="container-agregar">
+          <button class="btn btn-secondary"  (click)="showModalAgregar(modalAgregarProducto)">Agregar Producto</button>
+        </div>
+      </div>
+  
+
+      <!-- LISTAS DE PRODUCTOS Y CATEGORIAS -->
+      <div class="container-listas mt-2">
+
+          <!-- Lista de Productos -->
+          <div class="container-lista-productos" id="productos-show"> 
+            <ul class="list-group p-0" style="border: none;">
+              <li class="list-group-item d-flex justify-content-between">
+                <!-- Titulo Principal -->
+                <h3 class="m-0">Productos</h3>
+                <!-- Seleccionar -->
+                <div class="container-seleccionar">
+                  <select class="form-select" [(ngModel)]="categoriaSeleccionada" (change)="seleccionarLista()" aria-label="Default select example">
+                    <option selected value="0">Todo</option>
+                    <option *ngFor="let c of categoriasLista" [value]="c.cod_categoria">{{ c.nom_categoria }}</option>
+                  </select>
+                </div>
+              </li>
+              <!-- Sub-Titulos -->
+              <li class="list-group-item" style="font-weight: 700;">
+                <div class="row mx-0 d-flex align-items-center">
+                  <div class="col-4 col-sm-4 col-md-3 col-lg-3 px-0">Producto</div>
+                  <div class="col-3 col-sm-2 col-md-3 col-lg-3 px-0">Precio</div>
+                  <div class="col-4 col-sm-4 col-md-4 col-lg-4 px-0">Descripción</div>
+                  <div class="col-1 col-sm-1 col-md-2 col-lg-2 px-0 text-center container-btn">Opciones</div>
+                  <div class="col-1 col-sm-2 col-md-2 col-lg-2 px-0 text-center container-btn-movil">Op</div>
+                </div>
+              </li>
+              <!-- Lista Productos -->
+              <li class="list-group-item" *ngFor="let p of productosLista | filter: filterPost : ['nom_pro']; let i = index">
+                <div class="row mx-0 d-flex align-items-center">
+                  <!-- Producto -->
+                  <div class="col-4 col-sm-4 col-md-3 col-lg-3 px-0">
+                        <div class="col-12 px-0">{{p.nom_pro}}</div>
+                  </div>
+                  <!-- Precio -->
+                  <div class="col-3 col-sm-2 col-md-3 col-lg-3 px-0">
+                    <div class="row m-0">
+                      <div class="col-12 col-lg-12 col-xl-6 px-0" style="color: #d4da8f">  Bs. {{p.precio_bs}}</div>    
+                      <div class="col-12 col-lg-12 col-xl-6 px-0" style="color: #a7e29eee;">  Arg. {{p.precio_arg}}</div>    
+                    </div>                    
+                  </div>
+                  <!-- Descripcion -->
+                  <div class="col-4 col-sm-4 col-md-4 col-lg-4 px-0">{{p.descrip_pro}}</div>
+                  <!-- Opciones -->
+                  <div class="col-2 col-sm-1 col-md-2 col-lg-2 px-0 container-btn">
+                    <button class="btn p-0" (click)="showModalModificar(modalModificarProducto,p)"> <span class="px-0"><img src="../assets/images/icons/icon-options/editar.png"></span></button>
+                    <button class="btn p-0" (click)="showModalEliminar(modalEliminarProducto,p.cod_producto,p.nom_pro)"> <span class="px-0"><img src="../assets/images/icons/icon-options/eliminar.png"></span></button>
+                  </div>
+                  <!-- Opciones Movil -->
+                  <div class="col-1 col-sm-1 col-md-2 col-lg-2 px-0 container-btn-movil">
+                    <div ngbDropdown class="d-flex justify-content-center">
+                      <button class="btn btn-secondary btn-opciones" id="dropdownBasic1" ngbDropdownToggle></button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem (click)="showModalModificar(modalModificarProducto,p)">Modificar</button>
+                        <button ngbDropdownItem (click)="showModalEliminar(modalEliminarProducto,p.cod_producto,p.nom_pro)">Eliminar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>   
+          </div>
+
+          <!-- Lista de Categorias -->
+          <div class="container-lista-categorias" id="categoria-show">
+            <ul class="list-group p-0" style="border: none;">
+              <!-- Titulo Principal -->
+              <li class="list-group-item d-flex justify-content-between align-items-center" style="padding: 8px 15px;">
+                  <h3 class="m-0">Categorias</h3>
+                  <div class="container-add-categoria">
+                    <button class="btn p-0" (click)="showModalCategoria(modalAgregarCategoria)">
+                      <span><img src="../../../assets/images/icons/icon-options/agregar.png"></span>
+                    </button>
+                  </div>
+              </li>
+              <!-- Sub-Titulos -->
+              <li class="list-group-item" style="font-weight: 700;">
+                <div class="row mx-0 d-flex align-items-center">
+                  <div class="col-8 px-0">Producto</div>
+                  <div class="col-4 px-0 text-center">Op</div>
+                </div>
+              </li>
+              <!-- Lista Usuarios -->
+              <li class="list-group-item" *ngFor="let c of categoriasLista | filter: filterPost : ['nom_categoria']; let i = index">
+                <div class="row mx-0 d-flex align-items-center">
+                  <!-- Producto -->
+                  <div class="col-8 px-0">
+                      {{c.nom_categoria}}
+                  </div>
+                  <!-- Opciones -->
+                  <div class="col-4 px-0 container-btn-categoria">
+                    <button class="btn p-0"> <span class="px-0" (click)="showModalModificarCategoria(modalModificarCategoria,c)"><img src="../assets/images/icons/icon-options/editar.png"></span></button>
+                    <button class="btn p-0"> <span class="px-0" (click)="showModalEliminarCategoria(modalEliminarCategoria,c)"><img src="../assets/images/icons/icon-options/eliminar.png"></span></button>
+                  </div>
+
+                </div>
+              </li>
+            </ul>    
+          </div>
+
+      </div>
+
+
+
+
+  
+    </div>
+  
+     
+    
+
+
+
+
+
+
+
+
+<!-- ****************************** MODAL AGREGAR NUEVO PRODUCTO *****************************************  -->
+<div #modalAgregarProducto id="modalAgregarProducto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Nuevo Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form #formProducto="ngForm" class="row g-3" (ngSubmit)="AgregarProducto()">
+          <div class="mb-1 mt-0">
+            <label class="form-label">Producto:</label>
+            <input type="text" #nom_pro="ngModel" [(ngModel)]="productoApi.nom_pro" name="nom_pro" class="form-control" placeholder="Producto" required>
+            <span class="advertencias" *ngIf="nom_pro.touched && !nom_pro.valid" style="color: #fa6666">** El nombre no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Bs:</label>
+            <input type="number" #precio_bs="ngModel" [(ngModel)]="productoApi.precio_bs" name="precio_bs" class="form-control" placeholder="Precio Bs." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="precio_bs.touched && !precio_bs.valid || precio_bs.value<0" style="color: #fa6666">** El Monto no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Arg:</label>
+            <input type="number" #precio_arg="ngModel" [(ngModel)]="productoApi.precio_arg" name="precio_arg" class="form-control" placeholder="Precio Arg." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="precio_arg.touched && !precio_arg.valid || precio_arg.value<0" style="color: #fa6666">** El Monto no es valido</span>
+          </div>
+          <div class="mb-1 mt-0">
+            <label class="form-label">Descripción</label>
+            <input type="text" #descrip_pro="ngModel" [(ngModel)]="productoApi. descrip_pro" name="descrip_pro" class="form-control" placeholder="Descripción">
+          </div>
+          <div class="mb-0 mt-0">
+            <label class="form-label">Categoria:</label>
+            <select class="custom-select" #cod_categoria="ngModel" [(ngModel)]="productoApi.cod_categoria" name="cod_categoria" [value]="0" required>
+              <option value="">Seleccionar</option>
+              <option *ngFor="let c of categoriasLista" [value]="c.cod_categoria">{{ c.nom_categoria }}</option>
+            </select>
+            <span class="advertencias" *ngIf="cod_categoria.touched && cod_categoria.value==0" style="color: #fa6666">** Seleccione una categoria</span>
+          </div>
+          <div class="mb-1 mt-1 d-flex flex-column">
+            <label class="form-label">Opciones:</label>
+            <div *ngFor="let opcion of opciones; let i = index" class="d-flex mb-2">
+              <input type="text" [(ngModel)]="opcion.value" [id]="'opcion_' + (i+1)" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Opción {{ i + 1 }}">
+              <!-- <button type="button" class="btn btn-secondary" (click)="eliminarOpcion(i)">Eliminar</button> --> 
+              <button class="btn p-0 mx-3"> <span class="px-0" (click)="eliminarOpcion(i)"><img src="../assets/images/icons/icon-options/eliminar.png" style="width: 20px;"></span></button>
+            </div>
+            <button type="button" class="btn btn-secondary" (click)="agregarOpcion()">Agregar Opción</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formProducto.form.valid || !formProducto.form.touched" style="border: none;background: #2b5480;">Agregar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL MODIFICAR PRODUCTO *****************************************  -->
+<div #modalModificarProducto id="modalModificarProducto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Modificar Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form #formProducto="ngForm" class="row g-3" (ngSubmit)="ModificarProducto()">
+          <div class="mb-1 mt-0">
+            <label class="form-label">Producto:</label>
+            <input type="text" #nom_pro="ngModel" [(ngModel)]="productoApi.nom_pro" name="nom_pro" class="form-control" placeholder="Producto" required>
+            <span class="advertencias" *ngIf="!nom_pro.valid" style="color: #fa6666">** El nombre no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Bs:</label>
+            <input type="number" #precio_bs="ngModel" [(ngModel)]="productoApi.precio_bs" name="precio_bs" class="form-control" placeholder="Precio Bs." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="!precio_bs.valid || precio_bs.value<0" style="color: #fa6666">** El Monto no es valido</span>
+          </div>
+          <div class="col-md-6 mb-1 mt-0">
+            <label class="form-label">Precio Arg:</label>
+            <input type="number" #precio_arg="ngModel" [(ngModel)]="productoApi.precio_arg" name="precio_arg" class="form-control" placeholder="Precio Arg." required  inputmode="numeric" pattern="[0-9]*">
+            <span class="advertencias" *ngIf="!precio_arg.valid || precio_arg.value<0" style="color: #fa6666">** El Monto no es valido</span>
+          </div>
+          <div class="mb-1 mt-0">
+            <label class="form-label">Descripción</label>
+            <input type="text" #descrip_pro="ngModel" [(ngModel)]="productoApi. descrip_pro" name="descrip_pro" class="form-control" placeholder="Descripción">
+          </div>
+          <div class="mb-0 mt-0">
+            <label class="form-label">Categoria:</label>
+            <select class="custom-select" #cod_categoria="ngModel" [(ngModel)]="productoApi.cod_categoria" name="cod_categoria" [value]="0" required>
+              <option value="">Seleccionar</option>
+              <option *ngFor="let c of categoriasLista" [value]="c.cod_categoria">{{ c.nom_categoria }}</option>
+            </select>
+            <span class="advertencias" *ngIf="cod_categoria.value==0" style="color: #fa6666">** Seleccione una categoria</span>
+          </div>
+          <div class="mb-1 mt-1 d-flex flex-column">
+            <label class="form-label">Opciones:</label>
+            <div *ngFor="let opcion of opciones; let i = index" class="d-flex mb-2">
+              <input type="text" [(ngModel)]="opcion.value" [id]="'opcion_' + (i+1)" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Opción {{ i + 1 }}">
+              <!-- <button type="button" class="btn btn-secondary" (click)="eliminarOpcion(i)">Eliminar</button> --> 
+              <button class="btn p-0 mx-3"> <span class="px-0" (click)="eliminarOpcion(i)"><img src="../assets/images/icons/icon-options/eliminar.png" style="width: 20px;"></span></button>
+            </div>
+            <button type="button" class="btn btn-secondary" (click)="agregarOpcion()">Agregar Opción</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formProducto.form.valid" style="border: none;background: #2b5480;">Modificar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL DELETE PRODUCTO ***************************************** -->
+<div #modalEliminarProducto id="modalEliminarProducto" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR PRODUCTO</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de Eliminar "<strong>{{productoApi.nom_pro}}</strong>"</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="EliminarProducto()" style="border: none;background: #2b5480;">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL AGREGAR CATEGORIA ***************************************** -->
+<div #modalAgregarCategoria id="modalAgregarCategoria" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">Categoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="limpiar_Categoria()"></button>
+      </div>
+      <div class="modal-body">
+        <form #formCategoria="ngForm" class="row g-3" (ngSubmit)="agregar_Categoria()">
+          <div class="mb-1 mt-0">
+            <label class="form-label">Categoria:</label>
+            <input type="text" #nom_categoria="ngModel" [(ngModel)]="categorias.nom_categoria" name="nom_categoria" class="form-control" placeholder="..." required>
+            <span class="advertencias" *ngIf="nom_categoria.touched && !nom_categoria.valid" style="color: #fa6666">** El nombre no es valido</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="limpiar_Categoria()">Cerrar</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formCategoria.form.valid " style="border: none;background: #2b5480;">Agregar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL MODIFICAR CATEGORIA ***************************************** -->
+<div #modalModificarCategoria id="modalModificarCategoria" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">Modificar Categoria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #formCategoria="ngForm" class="row g-3" (ngSubmit)="modificar_Categoria()">
+          <div class="mb-1 mt-0">
+            <label class="form-label">Categoria:</label>
+            <input type="text" #nom_categoria="ngModel" [(ngModel)]="categorias.nom_categoria" name="nom_categoria" class="form-control" placeholder="Categoria" required>
+            <span class="advertencias" *ngIf="!nom_categoria.valid" style="color: #fa6666">** El nombre no es valido</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formCategoria.form.valid" style="border: none;background: #2b5480;">Modificar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL DELETE CATEGORIA ***************************************** -->
+<div #modalEliminarCategoria id="modalEliminarCategoria" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR CATEGORIA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Esta seguro de Eliminar "<strong>{{categorias.nom_categoria}}</strong>"</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="eliminar_Categoria()" style="border: none;background: #2b5480;">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MENSAJE TOAST ***************************************** -->
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="width: 200px;">
+  <div class="toast-header" id="toast-cabezera" style="background: #4a8557;color: #eeee;">
+    <strong class="me-auto">Mensaje</strong>
+    <small>1 mins ago</small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body" style="background: #eeee; font-weight: 500;">
+   {{mensaje_toast}}
+  </div>
+</div>
+

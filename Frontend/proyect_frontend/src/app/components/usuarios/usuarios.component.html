@@ -1,0 +1,233 @@
+    <!-- NAV HORIZONTAL -->
+  <div class="container-principal">
+
+    <!-- Opciones: Buscar - Agregar -->
+    <div class="d-flex justify-content-around align-items-center px-3 py-2 container-opciones">
+      <!-- Buscador -->
+      <div class="container-buscador">
+        <input type="text" class="form-control" placeholder="Buscar" name="filterPost" [(ngModel)]="filterPost">
+      </div>
+      <!-- Boton Agregar -->
+      <div class="container-agregar">
+        <button class="btn btn-secondary" (click)="showModalAgregar(modalAgregarUsuario)">Agregar Usuario</button>
+      </div>
+
+    </div>
+
+    <!-- Lista de Usuarios -->
+    <div class="container-lista">
+   
+      <ul class="list-group p-0" style="border: none;">
+              <!-- Titulo Principal -->
+        <li class="list-group-item d-flex justify-content-between">
+          <h3 class="m-0">Usuarios</h3>
+        </li>        
+        <!-- Titulos -->
+        <li class="list-group-item lista-caja">
+          <div class="row mx-0 d-flex align-items-center">
+            <div class="col-1 col-sm-1 col-md-1 col-lg-1 px-0">#</div>
+            <div class="col-3 col-sm-3 col-md-3 col-lg-2 px-0">CI</div>
+            <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">Nombre</div>
+            <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">Apellidos</div>
+            <div class="col-4 col-sm-4 col-md-4 col-lg-5 px-0 text-center">Opciones</div>
+          </div>
+        </li>
+        <!-- Lista Cajas -->
+        <li class="list-group-item lista-caja" *ngFor="let usu of usuarios | filter:filterPost: ['nom_usu', 'ap_usu', 'ci_usuario']; let i = index">
+          <div class="row mx-0 d-flex align-items-center">
+            <!-- # -->
+            <div class="col-1 col-sm-1 col-md-1 col-lg-1 px-0">
+               {{i+1}}
+            </div>
+            <!-- CI Usuario -->
+            <div class="col-3 col-sm-3 col-md-3 col-lg-2 px-0">
+                  <div class="col-12 px-0" style="color: #d4da8f">{{usu.ci_usuario}}</div>
+            </div>
+            <!-- Nombre Usuario -->
+            <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">
+                  <div class="col-12 px-0">{{usu.nom_usu}}</div>    
+            </div>
+            <!-- Apellido Usuario -->
+            <div class="col-2 col-sm-2 col-md-2 col-lg-2 px-0">{{usu.ap_usu}}</div>
+            <!-- Opciones -->
+            <div class="col-4 col-sm-4 col-md-4 col-lg-5 px-0 d-flex justify-content-evenly container-btn">
+              <button class="btn p-0" (click)="showModalModificar(modalModificarUsuario, usu.ci_usuario, usu.nom_usu, usu.ap_usu)"> <span class="px-0"><img src="../assets/images/icons/icon-options/editar.png"></span></button>
+              <button class="btn p-0" (click)="showModalEliminar(modalAgregarUsuario,usu.ci_usuario,usu.nom_usu)"> <span class="px-0"><img src="../assets/images/icons/icon-options/eliminar.png"></span></button>
+              <button class="btn p-0" (click)="showModalRolesUsuario(modalRolesUsuario, usu.ci_usuario)"> <span class="px-0"><img src="../assets/images/icons/icon-options/checked.png"></span></button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+
+  </div>
+
+     
+
+
+<!-- ****************************** MODAL AGREGAR NUEVO USUARIO *****************************************  -->
+<div #modalAgregarUsuario id="modalAgregarUsuario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-4" id="exampleModalLabel">Nuevo Usuario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <form #formUsuario="ngForm" class="row g-3" (ngSubmit)="AgregarUsuario()">
+          <div class="mb-1 mt-0">
+            <label class="form-label">CI:</label>
+            <input type="text" #ci_usuario="ngModel" [(ngModel)]="user.ci_usuario" name="ci_usuario" class="form-control" placeholder="Cedula de Identidad" required inputmode="numeric" pattern="[0-9]*" minlength="4" maxlength="10">
+            <span class="advertencias" *ngIf="ci_usuario.touched && !ci_usuario.valid">** ci debe ser numerico y mayor a 3</span>
+            <span class="advertencias" *ngIf="ci_usuario.touched && user.ci_usuario.length==0">** Insertar Ci</span>
+          </div>
+          <div class="mb-1 mt-0">
+            <label class="form-label">Nombre:</label>
+            <input type="text" #nom_usu="ngModel" [(ngModel)]="user.nom_usu" name="nom_usu" class="form-control" placeholder="Nombre" required pattern="[a-zA-Z ]+">
+            <span class="advertencias" *ngIf="nom_usu.touched && !nom_usu.valid">** El nombre no es valido</span>
+          </div>
+          <div class="mb-1 mt-0">
+            <label class="form-label">Apellidos:</label>
+            <input type="text" #ap_usu="ngModel" [(ngModel)]="user.ap_usu" name="ap_usu" class="form-control" placeholder="Apellidos" pattern="[a-zA-Z ]+">
+            <span class="advertencias" *ngIf="ap_usu.touched && !ap_usu.valid"> ** El apellido no es valido</span>
+          </div>
+          <div class="mb-0 mt-0">
+            <label class="form-label">Password</label>
+            <input type="password" #clave="ngModel" [(ngModel)]="user.clave" name="clave" class="form-control" placeholder="Contraseña..." required minlength="4">
+            <span class="advertencias" *ngIf="clave.touched && user.clave.length==0">** Insertar Contraseña </span>
+            <span class="advertencias" *ngIf="clave.touched && user.clave.length<=3 && user.clave.length!=0">** Contraseña debe ser mayor a 3</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formUsuario.form.valid || !formUsuario.form.touched" style="border: none;background: #2b5480;">Agregar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL MODIFICAR USUARIO *****************************************  -->
+<div #modalModificarUsuario id="modalModificarUsuario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form #formUsuarioMod="ngForm" class="row g-3" (ngSubmit)="ModificarUsuario()">
+          <div class="mb-1">
+            <label class="form-label">Nombre:</label>
+            <input type="text" #nom_usuM="ngModel" [(ngModel)]="user.nom_usu" name="nom_usu" class="form-control" placeholder="Nombre" required pattern="[a-zA-Z ]+" value="{{this.user.nom_usu}}">
+            <span class="advertencias" *ngIf="nom_usuM.touched && !nom_usuM.valid">El nombre no es valido</span>
+          </div>
+          <div class="mb-1">
+            <label class="form-label">Apellidos:</label>
+            <input type="text" #ap_usuM="ngModel" [(ngModel)]="user.ap_usu" name="ap_usu" class="form-control" placeholder="Apellidos" pattern="[a-zA-Z ]+" value="{{this.user.ap_usu}}">
+            <span class="advertencias" *ngIf="ap_usuM.touched && !ap_usuM.valid">El apellido no es valido</span>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-secondary" [disabled]="!formUsuarioMod.form.valid || !formUsuarioMod.form.touched" style="border: none;background: #2b5480;">Modificar</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MODAL DELETE USUARIO ***************************************** -->
+<div #modalEliminarUsuario id="modalEliminarUsuario" class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5">ELIMINAR USUARIO</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="m-0 py-2">Esta seguro de Eliminar a "<strong>{{nom_user}}</strong>"</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="EliminarUsuario()" style="border: none;background: #2b5480;">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ****************************** MODAL AGREGAR ROLES A USUARIO *****************************************  -->
+<div #modalRolesUsuario id="modalRolesUsuario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered d-flex justify-content-center">
+    <div class="modal-content content-modal">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Roles</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form class="row g-3" (ngSubmit)="AgregarRolesUsuario()">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" [(ngModel)]="administrarUsuarios" name="administrarUsuarios" id="administrarUsuarios">
+            <label class="form-check-label" for="flexCheckDefault">
+              Administrar Usuarios
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" [(ngModel)]="administrarProductos" name="administrarProductos" id="administrarProductos">
+            <label class="form-check-label" for="flexCheckChecked">
+              Administrar Productos
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" [(ngModel)]="gestionarVentas" name="gestionarVentas" id="gestionarVentas">
+            <label class="form-check-label" for="flexCheckChecked">
+              Gestionar Ventas
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" [(ngModel)]="gestionarCaja" name="gestionarCaja" id="gestionarCaja">
+            <label class="form-check-label" for="flexCheckChecked">
+              Getionar Caja
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" [(ngModel)]="gestionarCocina" name="gestionarCocina" id="gestionarCocina">
+            <label class="form-check-label" for="flexCheckChecked">
+              Getionar Cocina
+            </label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" (click)="AgregarRolesUsuario()" style="border: none;background: #2b5480;">Guardar</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ****************************** MENSAJE TOAST ***************************************** -->
+<div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="width: 200px;">
+  <div class="toast-header" id="toast-cabezera" style="background: #4a8557;color: #eeee;">
+    <strong class="me-auto">Mensaje</strong>
+    <small>1 mins ago</small>
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body" style="background: #eeee; font-weight: 500;">
+   {{mensaje_toast}}
+  </div>
+</div>
+

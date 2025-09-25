@@ -1,0 +1,141 @@
+
+
+.container-opciones{
+  background: #21252b4f;
+  width: 100%;
+}
+.container-agregar button{
+  font-weight: 600;
+  background: #28526b;
+  border: none;
+}
+.container-lista{
+  overflow: auto;
+  max-height: 77vh;
+  min-height: 50vh;
+  margin: 18px 0px;
+  padding: 0 180px;
+}
+.container-lista ul li{
+  font-size: 18px;
+  font-weight: 400;
+  padding: 12px 15px;
+  color: #dcdcdc;
+  background: #21252b;
+  border: none;
+  border-bottom: 1px solid #545252ee;
+}
+.container-btn img{
+  width: 20px;
+}
+
+/* MODALES */
+/*FONDO PARA LOS MODALES (192.168.1.4 chrome://inspect/#devices)*/
+.content-modal{
+  background: #3c4756;
+  color: #f3f3f3;
+  width: 80%;
+  font-size: 18px;
+  font-weight: 500;
+}
+.content-modal .modal-header{
+  border-bottom: 1px solid #727272;
+}
+.content-modal .modal-footer{
+  border-top: 1px solid #727272;
+}
+
+.content-modal form input[type="text"],.content-modal form input[type="password"]{
+  color: #eaeaea;
+  background: #ffffff21;
+  border: none;
+}
+.content-modal form input[type="text"]::placeholder,
+.content-modal form input[type="password"]::placeholder {
+  color: #c0c0c0; /* Cambia el color según tu preferencia */
+}
+
+
+@media(max-width:1280px){
+  .container-lista{
+    padding: 0 15px;
+  }
+  .container-lista ul li{
+    font-size: 16px;
+    padding-bottom: 15px;
+  }
+}
+
+
+
+@media(max-width:700px){
+  .container-lista ul li{
+    font-size: 15px;
+    padding-bottom: 20px;
+  }
+  .container-btn img{
+    width: 17px;
+  }
+  .container-lista{
+    padding: 0 5px;
+  }
+  .container-agregar button,.boton-showdetalles button{
+    padding: 5px 0px;
+    font-size: 14px;
+    width: 80px;
+  }
+  .container-buscador input{
+    font-size: 15px;
+    height: 30px;
+    width: 130px;
+  }
+}
+
+
+@media(max-width:350px){
+  .container-agregar button {
+    font-size: 14px;
+    width: 123px;
+  }
+  .container-lista ul li {
+    font-size: 12px;
+    padding-left: 6px;
+    padding-right: 0px;
+  }
+}
+
+
+.container-lista::-webkit-scrollbar {
+  width: 0.2em;
+  background-color: #333333; /* Cambia el color de fondo del scroll */
+}
+
+.container-lista::-webkit-scrollbar-thumb {
+  background-color: #8888888c; /* Cambia el color del thumb del scroll */
+}
+
+
+
+
+
+
+
+
+
+
+/*Estilo de advertencias para la validacion de formulario*/
+.advertencias{
+  color: salmon;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+#toast {
+  position: fixed;
+  top: 120px; /* Centra verticalmente */
+  left: 70%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Alinea al centro de la pantalla */
+  user-select: none;
+}
