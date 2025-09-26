@@ -78,8 +78,8 @@
 
 /* ****************** PARA LOS MODALES ****************** */
 .content-modal{
-  background: #3c4756;
-  color: #f3f3f3;
+  background: #f3f3f3;
+  /* color: #f3f3f3; */
   width: 80%;
   font-size: 18px;
   font-weight: 500;
@@ -100,8 +100,8 @@
 .content-modal form input[type="password"],
 .content-modal form input[type="number"],
 .custom-select{
-  color: #eaeaea;
-  background: #ffffff21;
+  color: #0a0a0a;
+  background: #e5e5e5;
   border: none;
   padding: 3px 12px;
 }
@@ -110,7 +110,7 @@
 .content-modal form input[type="password"]::placeholder,
 .content-modal form input[type="number"]::placeholder {
   font-size: 15px;
-  color: #c0c0c04b; /* Cambia el color según tu preferencia */
+  color: #c0c0c000; 
 }
 
 /* PARA DESAPARECER LAS FECHAS EN LOS INPUTS NUMBER */

@@ -1,7 +1,7 @@
 
 
 #side_nav{
-    background: #1f4155;
+    background: #333b46;
     min-width: 225px;
     max-width: 225px;
     transition: all 0.3s;
@@ -16,11 +16,11 @@
 }
 
 .sidebar li.active{
-    background: #28526b;
+    background: #2e353f;
     border-radius: 8px;
 }
 .sidebar li:hover{
-    background: #28546b94;
+    background: #38404b;
     border-radius: 8px;
 }
 .navbar-horizontal{

@@ -32,9 +32,9 @@
 /* MODALES */
 /*FONDO PARA LOS MODALES (192.168.1.4 chrome://inspect/#devices)*/
 .content-modal{
-  background: #3c4756;
-  color: #f3f3f3;
-  width: 80%;
+  background: #f3f3f3;
+  /* color: #f3f3f3; */
+  width: 100%;
   font-size: 18px;
   font-weight: 500;
 }
@@ -46,13 +46,13 @@
 }
 
 .content-modal form input[type="text"],.content-modal form input[type="password"]{
-  color: #eaeaea;
-  background: #ffffff21;
+  color: #0a0a0a;
+  background: #e5e5e5;
   border: none;
 }
 .content-modal form input[type="text"]::placeholder,
 .content-modal form input[type="password"]::placeholder {
-  color: #c0c0c0; /* Cambia el color según tu preferencia */
+  color: #b8b8b800;
 }
 
 

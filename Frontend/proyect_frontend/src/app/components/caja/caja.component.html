@@ -139,17 +139,17 @@
 
           <div *ngFor="let detalles of detalle_productos">
 
-            <div class="card" style="background: #212529; color: #f4f4f4">
+            <div class="card" style="background: #f3f3f3;">
               <div class="card-body">
                 <h5 class="card-title">{{detalles.categoria}}</h5>
                 <div class="row mx-0" *ngFor="let p of detalles.productos">
                   <div class="col-4 px-0">
                     <p class="card-text my-1">{{p.nom_pro}}</p>
                   </div>
-                  <div class="col-4 px-0 text-end" style="font-weight: bold; color: #548e42;">
+                  <div class="col-4 px-0 text-end" style="font-weight: bold; color: #467637;">
                     <p class="card-text my-1">{{p.cantidad_vendida}}</p>
                   </div>
-                  <div class="col-4 px-0 text-end" style="font-weight: bold; color: rgb(206, 206, 206);">
+                  <div class="col-4 px-0 text-end" style="font-weight:600; color: rgb(94, 94, 94);">
                     <p class="card-text my-1"> {{ p.porcentaje }}%</p>
                   </div>
                 </div>
