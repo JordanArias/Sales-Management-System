@@ -1285,7 +1285,7 @@ export class VentasComponent {
           // console.log("caja a Listar V:: ",this.last_caja[0].cod_caja);
           this.listarProductos();
           this.listar_Categorias();
-          this.listar_Ventas();
+          // this.listar_Ventas();
         }else{
           this.listarProductos();
           this.listar_Categorias();

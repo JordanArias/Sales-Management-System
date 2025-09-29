@@ -9,7 +9,7 @@ import {configuration} from "./configuration"
 export class SocketService {
   private socket: any;
   constructor() {
-    this.socket = io('http://192.168.0.100:3000', { 
+    this.socket = io('http://localhost:3000', { 
       withCredentials: true,
       extraHeaders: {
         "my-custom-header": "abcd" // Se puede agregar encabezados personalizados aquí
