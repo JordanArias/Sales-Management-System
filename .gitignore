@@ -21,4 +21,4 @@ build/
 *.map
 *.d.ts
 # Do not ignore backend source files
-!/Backend/proyecto_backend/src/*.js
+!/Backend/proyecto_backend/src/**/*.js
