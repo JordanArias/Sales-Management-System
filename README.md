@@ -1,7 +1,7 @@
 Aplicación web para gestionar las operaciones diarias de un negocio.  
 Incluye módulos de usuarios y roles, productos, ventas, caja, cocina, inventario, clientes y reportes detallados.
 
-🚀 Tecnologías
+## 🚀 Tecnologías
 - Angular
 - Node.js
 - Express
