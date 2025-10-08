@@ -1,29 +1,114 @@
-Aplicación web para gestionar las operaciones diarias de un negocio.  
-Incluye módulos de usuarios y roles, productos, ventas, caja, cocina, inventario, clientes y reportes detallados.
+# 🧾 Sales Management System
 
-## 🚀 Tecnologías
-- Angular
-- Node.js
-- Express
-- PostgreSQL
+El **Sales Management System** es una aplicación web completa diseñada para administrar las operaciones de ventas de un negocio.  
+Permite gestionar productos, ventas, inventario, usuarios, caja y reportes, todo desde una interfaz moderna y responsiva.
 
-⚙️ Funcionalidades principales
-- Gestión de usuarios y roles
-- Control de productos únicos, compuestos y con opciones
-- Registro de ventas y pedidos en tiempo real
-- Módulo de caja con doble divisa
-- Reportes detallados para la toma de decisiones
+---
 
-🖥️ Demo
-🔗 [Ver Demo](https://jordandeveloper.netlify.app/sistema-de-ventas/)
+## 🚀 Tecnologías utilizadas
 
-💻 Cómo ejecutar el proyecto
+### 🔹 Frontend
+- Angular  
+- Bootstrap  
+- HTML / CSS  
+- TypeScript  
+
+### 🔹 Backend
+- Node.js  
+- Express.js  
+- PostgreSQL  
+- Sequelize (ORM)  
+
+---
+
+## ⚙️ Funcionalidades principales
+
+- Gestión de usuarios y roles con permisos personalizados  
+- Administración de productos 
+- Registro de ventas y seguimiento de pedidos  
+- Control de caja con ingresos, egresos y cierre diario   
+- Cocina: organización y preparación de pedidos según su estado  
+
+---
+
+## 🧩 Estructura del proyecto
+
 ```bash
-# Clonar el repositorio
-git clone https://github.com/JordanArias/sistema-ventas-frontend.git
+Sales-Management-System/
+│
+├── backend/ # API REST construida con Node.js y Express
+│ ├── src/
+│ │ ├── controllers/ # Controladores para cada módulo
+│ │ ├── models/ # Modelos de Sequelize (tablas)
+│ │ ├── routes/ # Rutas API
+│ │ ├── database/ # Conexión a PostgreSQL
+│ │ └── app.js # Configuración principal del servidor
+│ └── package.json
+│
+├── frontend/ # Aplicación Angular
+│ ├── src/
+│ │ ├── app/ # Componentes, servicios y módulos
+│ │ ├── assets/ # Recursos estáticos
+│ │ └── environments/ # Configuraciones del entorno
+│ └── package.json
+│
+└── README.md
+```
+## 🗄️ Configuración de la Base de Datos (PostgreSQL)
+Este proyecto incluye un **backup completo de la base de datos** con las tablas y un usuario administrador ya configurado.
 
-# Instalar dependencias
+#### 1. Instalar PostgreSQL v7.2 en adelante (si aún no está instalado).
+#### 2. Crear la base de datos (si aún no existe):
+   ```sql
+   CREATE DATABASE sistema_ventas;
+  ```
+#### 3. Importar el backup incluido en la carpeta "database": 
+   ```sql
+psql -U postgres -d sistema_ventas -f ./backend/database/sistema_ventas_backup.sql
+  ```
+## 🧰 Instalación y ejecución del proyecto
+#### 1. Clonar el repositorio
+```bash
+git clone https://github.com/JordanArias/Sales-Management-System.git
+```
+#### 2. Instalar dependencias del backend
+```bash
+cd backend
 npm install
 
-# Ejecutar el proyecto
+```
+#### 3. Configurar la conexión a la base de datos
+En el archivo src/database/config.js (o .env, si usas uno), ajusta tus credenciales de PostgreSQL.
+
+#### 4. Ejecutar el servidor backend
+```bash
+npm start
+```
+El servidor se iniciará en:
+```bash
+http://localhost:3800
+```
+#### 5. Instalar dependencias del frontend
+```bash
+cd ../frontend
+npm install
+```
+#### 6. Ejecutar la aplicación Angular
+```bash
 ng serve
+```
+Abrir en el navegador:
+```bash
+http://localhost:4200
+```
+---
+
+## 🖥️ Demo
+🔗 [Ver Demo](https://youtu.be/VcgF9fBmzpk)
+
+---
+
+## 👨‍💻 Autor
+**Fabrizio Jordan Arias Marca**  
+📧 ariasjordan943@gmail.com  
+🌐 [jordandeveloper.netlify.app](https://jordandeveloper.netlify.app)
