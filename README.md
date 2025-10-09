@@ -1,7 +1,6 @@
-# 🧾 Sales Management System
+# 🧾 Sistema de Ventas
 
-El **Sales Management System** es una aplicación web completa diseñada para administrar las operaciones de ventas de un negocio.  
-Permite gestionar productos, ventas, inventario, usuarios, caja y reportes, todo desde una interfaz moderna y responsiva.
+Aplicación web utilizada por negocios locales para administrar productos, ventas, caja y clientes. Incluye módulos de usuarios y roles, productos y categorías, registro y seguimiento de ventas con múltiples opciones de productos, caja para gestionar ingresos y egresos, y cocina para organizar los pedidos según su estado. También ofrece reportes en tiempo real que facilitan la administración diaria del negocio.
 
 ---
 
