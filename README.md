@@ -64,7 +64,7 @@ Este proyecto incluye un **backup completo de la base de datos** con las tablas 
   ```
 #### 3. Importar el backup incluido en la carpeta "database": 
    ```sql
-psql -U postgres -d sistema_ventas -f ./backend/database/sistema_ventas_backup.sql
+psql -U postgres -d Proyecto_Restaurante -f ./backend/database/sistema_ventas_backup.sql
   ```
 ## 🧰 Instalación y ejecución del proyecto
 #### 1. Clonar el repositorio
